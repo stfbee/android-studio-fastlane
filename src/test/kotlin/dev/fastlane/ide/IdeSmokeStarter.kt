@@ -33,6 +33,9 @@ class IdeSmokeStarter : ApplicationStarter {
     override fun main(args: List<String>) {
         val report = Path.of(System.getProperty("fastlane.smoke.report"))
         try {
+            // Keep the isolated test project's startup free of the Google sign-in modal.
+            com.intellij.ide.util.PropertiesComponent.getInstance()
+                .setValue("com.google.gct.login2.ui.StartupSignInDialog.shownVersion", "9999.0")
             val project = com.intellij.openapi.project.ex.ProjectManagerEx.getInstanceEx()
                 .openProject(report.parent.resolve("project"), com.intellij.ide.impl.OpenProjectTask(
                     isNewProject = true, useDefaultProjectAsTemplate = false))

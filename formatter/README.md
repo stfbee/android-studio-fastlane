@@ -9,6 +9,8 @@ The IDE passes unsaved document text through stdin and applies stdout as one for
 
 Formatting follows Syntax Tree's style (two spaces per indentation level), with the line width supplied by the IDE. Syntax errors return a nonzero exit status and leave the editor document unchanged.
 
+`preserve_multiline_strings.rb` overrides formatting of multiline string literals and concatenations to keep their original source spelling, including quotes, interpolation and internal whitespace. This avoids rewriting Ruby's triple-quoted adjacent strings into backslash continuations. Upstream vendor files remain unmodified.
+
 Original gem SHA-256 checksums:
 
 ```text

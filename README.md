@@ -6,7 +6,9 @@
 
 ID плагина: `ru.ovm.fastlane.as`.
 
-## Версия 0.1.5
+## Версия 0.1.6
+
+Исправлено форматирование многострочных строк, включая `"""…"""`: сохраняются исходные кавычки, интерполяция и отступы внутри текста.
 
 Форматирование всех поддерживаемых Ruby-конфигов через **Code → Reformat Code** (`⌘⌥L`). Плагин включает Syntax Tree 6.3.0 и prettier_print 1.2.1; устанавливать gems или менять Gemfile не требуется. Для форматирования нужен Ruby 2.7+; подсветка и навигация по-прежнему работают без Ruby.
 
@@ -29,7 +31,7 @@ ID плагина: `ru.ovm.fastlane.as`.
 
 ## Установка
 
-1. Скачать или собрать `fastlane-navigator-0.1.5.zip`.
+1. Скачать или собрать `fastlane-navigator-0.1.6.zip`.
 2. В Android Studio открыть **Settings → Plugins → шестерёнка → Install Plugin from Disk…**.
 3. Выбрать ZIP целиком и перезапустить IDE, если она предложит.
 4. Открыть Fastfile и вызвать **Navigate → File Structure** (`⌘F12`).
@@ -66,7 +68,7 @@ ID плагина: `ru.ovm.fastlane.as`.
 ./gradlew check buildPlugin '-Dorg.gradle.java.installations.paths=/path/to/studio/Contents/jbr/Contents/Home'
 ```
 
-Архив: `build/distributions/fastlane-navigator-0.1.5.zip`.
+Архив: `build/distributions/fastlane-navigator-0.1.6.zip`.
 
 Для разработки с отдельными настройками IDE:
 

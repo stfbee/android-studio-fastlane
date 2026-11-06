@@ -10,6 +10,7 @@ $LOAD_PATH.unshift(File.join(__dir__, "vendor", "prettier_print-1.2.1", "lib"))
 $LOAD_PATH.unshift(File.join(__dir__, "vendor", "syntax_tree-6.3.0", "lib"))
 require "rubygems/version" # Only the stdlib version class, not RubyGems activation.
 require "syntax_tree"
+require_relative "preserve_multiline_strings"
 
 STDIN.set_encoding(Encoding::UTF_8)
 STDOUT.set_encoding(Encoding::UTF_8)

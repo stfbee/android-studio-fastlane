@@ -55,4 +55,33 @@ checks += 1
 long = 'action(first: "aaaaaaaaaaaaaaaaaaaaaaaa", second: "bbbbbbbbbbbbbbbbbbbbbbbb")' + "\n"
 raise "Line width ignored" unless format.call(long, 40).lines.size > format.call(long, 120).lines.size
 checks += 1
+
+raw_literal = <<~'LITERAL'.chomp
+  """
+      Branch: #{branch}
+      SHA: #{sha}
+      """
+LITERAL
+raw_source = "lane :publish do\nrelease_notes=#{raw_literal}\nputs(release_notes)\nend\n"
+raw_result = format.call(raw_source)
+raise "Triple-quoted multiline string was rewritten:\n#{raw_result}" unless raw_result.include?(raw_literal)
+raise "Multiline-string formatting is not idempotent" unless format.call(raw_result) == raw_result
+checks += 1
+
+[
+  "\"Первая строка\n  Вторая строка \\\"в кавычках\\\"\n\"",
+  "'Первая строка\n  Вторая строка с \\\\ и " + '#{name}' + "\n'",
+  "'''Первая строка\n  Вторая строка\n'''",
+  '%q{Первая строка' + "\n  Вторая строка с \\\\ и \"кавычками\"\n}",
+  '%Q{Привет, #{name}!' + "\n    Сохранить отступ.\n}",
+  '"начало" \\' + "\n    \"продолжение\\n\"",
+  "`printf 'first\\n'\nprintf 'second\\n'`",
+].each do |literal|
+  source = "lane :notify do\nmessage=#{literal} # trailing comment\nputs(message)\nend\n"
+  result = format.call(source)
+  raise "Multiline literal changed:\n#{result}" unless result.include?(literal)
+  raise "Trailing comment lost" unless result.include?("# trailing comment")
+  raise "Multiline formatting is not idempotent" unless format.call(result) == result
+  checks += 1
+end
 puts "Formatter tests: #{checks} scenarios passed"

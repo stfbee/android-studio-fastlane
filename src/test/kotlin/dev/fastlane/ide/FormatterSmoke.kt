@@ -24,12 +24,15 @@ object FormatterSmoke {
     fun run(project: Project, folder: Path): List<String> {
         val directory = Files.createDirectories(folder.resolve("formatting-samples"))
         val service = FormattingService.EP_NAME.extensionList.filterIsInstance<FastlaneFormattingService>().single()
+        val multiline = "\"\"\"\n    Branch: #{branch}\n    SHA: #{sha}\n    \"\"\""
         val samples = mapOf(
             "Fastfile" to ("platform :android do\nlane :release do\ngradle(task:\"assemble\")\nend\nend\n" to
                 "platform :android do\n  lane :release do\n    gradle(task: \"assemble\")\n  end\nend\n"),
             "Pluginfile" to ("gem   \"fastlane-plugin-example\"\n" to "gem \"fastlane-plugin-example\"\n"),
             "Gemfile" to ("source   \"https://rubygems.org\"\ngem   \"fastlane\"\n" to "source \"https://rubygems.org\"\ngem \"fastlane\"\n"),
             "Appfile" to ("app_identifier(  \"ru.example.app\"  )\n" to "app_identifier(\"ru.example.app\")\n"),
+            "Fastfile.rb" to ("lane :publish do\nrelease_notes=$multiline\nend\n" to
+                "lane :publish do\n  release_notes =\n    $multiline\nend\n"),
         )
         var requestFile: PsiFile? = null
         for ((name, texts) in samples) {
@@ -91,6 +94,7 @@ object FormatterSmoke {
         return listOf(
             "Formatting: standard CodeStyleManager/Reformat Code formatted unsaved Fastfile, Pluginfile, Gemfile and Appfile; results are idempotent and disk contents unchanged",
             "Formatting: syntax errors, missing Ruby and cancellation preserve the original text",
+            "Formatting: multiline triple-quoted literals retain their spelling, interpolation and content",
         )
     }
 
