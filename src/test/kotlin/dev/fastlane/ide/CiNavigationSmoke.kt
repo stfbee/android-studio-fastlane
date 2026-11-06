@@ -23,7 +23,9 @@ object CiNavigationSmoke {
         val gitlab = root.resolve(".gitlab-ci.yml")
         val fixtures = listOf(
             Triple(github, "jobs:\n  publish:\n    steps:\n      - run: bundle exec fastlane android release\n        working-directory: mobile\n", ruby.indexOf(":release") + 1),
+            Triple(github, "jobs:\n  publish:\n    steps:\n      - uses: maierj/fastlane-action@v3.2.0\n        with:\n          lane: android release\n          subdirectory: mobile\n", ruby.indexOf(":release") + 1),
             Triple(gitlab, "publish:\n  script:\n    - cd mobile\n    - fastlane ios release\n", ruby.lastIndexOf(":release") + 1),
+            Triple(gitlab, ".fastlane:\n  before_script:\n    - cd mobile\npublish:\n  extends: .fastlane\n  script:\n    - bundle exec fastlane android release\n", ruby.indexOf(":release") + 1),
             Triple(gitlab, "publish:\n  script:\n    - cd mobile\n    - fastlane release\n", ruby.indexOf(":release") + 1),
         )
         // Keep the source document unsaved to verify that navigation uses the current editor text.
@@ -68,6 +70,42 @@ object CiNavigationSmoke {
                 })
             }
         }
-        return listOf("CI navigation: standard Go to Declaration resolves unsaved GitHub/GitLab commands to exact Android/iOS/default-platform lane offsets; private lanes excluded; multiple Fastfiles offered as distinct targets")
+        return listOf("CI navigation: standard Go to Declaration resolves unsaved GitHub/GitLab commands, maierj action inputs and inherited GitLab jobs to exact lane offsets; private lanes excluded; multiple Fastfiles offered as distinct targets") + realProject(project)
+    }
+
+    /** Optional read-only regression check against a local checkout, never packaged into the plugin. */
+    private fun realProject(project: Project): List<String> {
+        val path = System.getenv("FASTLANE_CI_PROJECT")?.takeIf { it.isNotBlank() } ?: return emptyList()
+        val root = Path.of(path)
+        val workflows = Files.list(root.resolve(".github/workflows")).use { files ->
+            files.filter { it.fileName.toString().endsWith(".yml") || it.fileName.toString().endsWith(".yaml") }.toList()
+        }
+        val counts = mutableMapOf(CiLaneCommands.Kind.GITHUB to 0, CiLaneCommands.Kind.GITLAB to 0)
+        LocalFileSystem.getInstance().refreshAndFindFileByNioFile(root.resolve("fastlane/Fastfile")) ?: error("No real Fastfile")
+        for (path in workflows + listOf(root.resolve(".gitlab-ci.yml"))) {
+            val kind = if (path.fileName.toString() == ".gitlab-ci.yml") CiLaneCommands.Kind.GITLAB else CiLaneCommands.Kind.GITHUB
+            val virtual = LocalFileSystem.getInstance().refreshAndFindFileByNioFile(path) ?: error("No real CI file")
+            ApplicationManager.getApplication().invokeAndWait {
+                com.intellij.openapi.application.ReadAction.run<RuntimeException> {
+                    val document = FileDocumentManager.getInstance().getDocument(virtual) ?: error("No real CI document")
+                    val calls = CiLaneCommands.find(document.text, kind).filter { it.directory != null }
+                    if (calls.isNotEmpty()) {
+                        val factory = EditorFactory.getInstance()
+                        val editor = factory.createEditor(document, project)
+                        try {
+                            for (call in calls) {
+                                val targets = GotoDeclarationAction.findAllTargetElements(project, editor, call.start + 1)
+                                check(targets.isNotEmpty() && targets.all { it is LaneNavigationElement && it.text == call.lane && it.textOffset > 0 }) {
+                                    "Real CI navigation failed: ${path.fileName}:${call.lane}"
+                                }
+                                counts[kind] = counts.getValue(kind) + 1
+                            }
+                        } finally { factory.releaseEditor(editor) }
+                    }
+                }
+            }
+        }
+        check(counts.values.all { it > 0 }) { "Real CI regression did not exercise both providers: $counts" }
+        return listOf("Real checkout (read-only): ${counts.getValue(CiLaneCommands.Kind.GITHUB)} GitHub and ${counts.getValue(CiLaneCommands.Kind.GITLAB)} GitLab lane navigation targets verified")
     }
 }

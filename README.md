@@ -6,15 +6,17 @@
 
 ID плагина: `ru.ovm.fastlane.as`.
 
-## Версия 0.2.0
+## Версия 0.2.1
 
 Переход из CI к объявлению lane: **⌘Click / ⌘B** на имени в `fastlane release` или `bundle exec fastlane android release`.
 Поддерживаются `.github/workflows/*.yml`, `*.yaml` и `.gitlab-ci.yml`: однострочные команды, блоки `|` и списки GitLab `script` / `before_script` / `after_script`.
 
+В GitHub также поддерживается `uses: maierj/fastlane-action@…` с `with.lane` и `with.subdirectory`. В GitLab поддерживаются `extends` (включая цепочки и несколько родителей) и `!reference [job, script]` / `before_script` / `after_script` в пределах одного CI-файла. Наследуемый `before_script` учитывается при определении рабочей папки.
+
 Учитываются явная платформа, `default_platform(:android)`, GitHub `working-directory` (шаг, job или workflow defaults), простой `cd` и GitLab `before_script`.
 Fastfile ищется в рабочей папке и её родителях: `fastlane/Fastfile`, `Fastfile` и варианты `.rb`. Если таких файлов нет, поиск идёт среди вложенных Fastfile проекта; при нескольких совпадениях IDE предлагает выбор с полными путями. Приватные lanes не предлагаются.
 
-Это статический разбор без запуска CI, shell или Fastlane. Динамические имена и папки из переменных не вычисляются. Подключённые CI-файлы, GitLab `extends` / YAML aliases, flow-массивы, folded-блоки `>` и сложные shell-конструкции пока не поддерживаются.
+Это статический разбор без запуска CI, shell или Fastlane. Динамические имена и папки из переменных не вычисляются. Подключённые CI-файлы, YAML aliases, flow-массивы команд, folded-блоки `>` и сложные shell-конструкции пока не поддерживаются. Неизвестные родители `extends` и циклы наследования не используются для угадывания рабочей папки.
 
 В 0.1.6 исправлено форматирование многострочных строк, включая `"""…"""`: сохраняются исходные кавычки, интерполяция и отступы внутри текста.
 
@@ -39,7 +41,7 @@ Fastfile ищется в рабочей папке и её родителях: `
 
 ## Установка
 
-1. Скачать или собрать `fastlane-navigator-0.2.0.zip`.
+1. Скачать или собрать `fastlane-navigator-0.2.1.zip`.
 2. В Android Studio открыть **Settings → Plugins → шестерёнка → Install Plugin from Disk…**.
 3. Выбрать ZIP целиком и перезапустить IDE, если она предложит.
 4. Открыть Fastfile и вызвать **Navigate → File Structure** (`⌘F12`).
@@ -76,7 +78,7 @@ Fastfile ищется в рабочей папке и её родителях: `
 ./gradlew check buildPlugin '-Dorg.gradle.java.installations.paths=/path/to/studio/Contents/jbr/Contents/Home'
 ```
 
-Архив: `build/distributions/fastlane-navigator-0.2.0.zip`.
+Архив: `build/distributions/fastlane-navigator-0.2.1.zip`.
 
 Для разработки с отдельными настройками IDE:
 

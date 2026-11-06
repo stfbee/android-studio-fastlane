@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <vendor>Fastlane Navigator contributors</vendor>
     <description><![CDATA[
         Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and

@@ -9,37 +9,55 @@ object CiLaneCommands {
         val parent: Node?, val children: MutableList<Node> = mutableListOf(), var block: String? = null,
     )
     private val identifier = Regex("[A-Za-z_][A-Za-z_0-9]*[!?]?")
-    private val mapping = Regex("([A-Za-z_][A-Za-z_0-9.-]*):(?:[ \\t]+(.*))?")
+    private val mapping = Regex("([A-Za-z_.][A-Za-z_0-9.-]*):(?:[ \\t]+(.*))?")
 
     fun find(text: String, kind: Kind): List<Call> {
         val root = yaml(text)
         val result = mutableListOf<Call>()
         fun visit(node: Node) {
+            if (kind == Kind.GITHUB && node.key == "uses" && node.parent?.parent?.key == "steps") {
+                val action = scalar(node)?.first?.substringBefore(" #")?.substringBefore('@')
+                if (action == "maierj/fastlane-action") {
+                    val inputs = node.parent.children.firstOrNull { it.key == "with" }
+                    val lane = inputs?.children?.firstOrNull { it.key == "lane" }?.let(::scalar)
+                    val subdirectory = inputs?.children?.firstOrNull { it.key == "subdirectory" }
+                    val directory = if (subdirectory == null) "." else scalar(subdirectory)?.first
+                        ?.takeUnless { it.any { ch -> ch in "\$`{}" } }
+                    if (lane != null) {
+                        // The action accepts lane/platform arguments, without the shell executable prefix.
+                        val prefix = "fastlane "
+                        val value = if (lane.first.startsWith(prefix)) lane.first else prefix + lane.first
+                        shell(value, lane.second - if (value == lane.first) 0 else prefix.length,
+                            ShellState(directory), result)
+                    }
+                }
+            }
             if ((kind == Kind.GITHUB && node.key == "run" && node.parent?.key == null &&
                     node.parent?.parent?.key == "steps") ||
                 (kind == Kind.GITLAB && node.key in setOf("script", "before_script", "after_script") &&
                     (node.parent === root || (node.parent?.parent === root &&
                         node.parent.key !in setOf("variables", "workflow", "include"))))) {
                 val directory = if (kind == Kind.GITHUB) workingDirectory(node) else "."
-                if (kind == Kind.GITLAB && node.parent?.children?.any { it.key == "extends" } == true) return
                 val state = ShellState(directory)
                 if (kind == Kind.GITLAB && node.key == "script") {
-                    val before = node.parent?.children?.firstOrNull { it.key == "before_script" }
+                    val inherited = inherited(node.parent, "before_script", root)
+                    val before = inherited.node
                         ?: root.children.firstOrNull { it.key == "default" }?.children?.firstOrNull { it.key == "before_script" }
                         ?: root.children.firstOrNull { it.key == "before_script" }
+                    if (!inherited.known) state.directory = null
                     if (before != null) {
-                        val setup = scripts(before)
-                        if (setup.isEmpty() && before.value != "[]") state.directory = null
-                        setup.forEach { (source, start) -> shell(source, start, state, mutableListOf()) }
+                        val setup = scripts(before, root)
+                        if (setup == null) state.directory = null
+                        setup.orEmpty().forEach { (source, start) -> shell(source, start, state, mutableListOf()) }
                     }
                 }
-                scripts(node).forEach { (source, start) -> shell(source, start, state, result) }
+                scripts(node, root).orEmpty().forEach { (source, start) -> shell(source, start, state, result) }
                 return
             }
             node.children.forEach(::visit)
         }
         visit(root)
-        return result
+        return result.distinct()
     }
 
     /** Supports block mappings, sequences and literal | blocks; aliases/flow YAML are left alone. */
@@ -106,10 +124,42 @@ object CiLaneCommands {
         return value to node.start
     }
 
-    private fun scripts(node: Node): List<Pair<String, Int>> = when {
+    private data class Inherited(val node: Node?, val known: Boolean = true)
+
+    /** GitLab reverse deep merge: a local key wins, then the last parent that defines it. */
+    private fun inherited(job: Node, key: String, root: Node, seen: Set<Int> = emptySet()): Inherited {
+        job.children.firstOrNull { it.key == key }?.let { return Inherited(it) }
+        if (job.start in seen || seen.size >= 11) return Inherited(null, false)
+        val extends = job.children.firstOrNull { it.key == "extends" } ?: return Inherited(null)
+        val value = extends.value.substringBefore(" #").trim()
+        val parents = when {
+            value.startsWith('[') && value.endsWith(']') -> value.drop(1).dropLast(1).split(',').map { it.trim().trim('\'', '"') }
+            value.isNotEmpty() -> listOfNotNull(scalar(extends)?.first)
+            else -> extends.children.flatMap { it.children }.mapNotNull { scalar(it)?.first }
+        }
+        if (parents.isEmpty()) return Inherited(null, false)
+        for (name in parents.asReversed()) {
+            val parent = root.children.firstOrNull { it.key == name } ?: return Inherited(null, false)
+            val field = inherited(parent, key, root, seen + job.start)
+            if (!field.known || field.node != null) return field
+        }
+        return Inherited(null)
+    }
+
+    private fun scripts(node: Node, root: Node, seen: Set<Int> = emptySet()): List<Pair<String, Int>>? {
+        if (node.start in seen) return null
+        val reference = Regex("!reference\\s*\\[\\s*([A-Za-z_.][A-Za-z_0-9.-]*)\\s*,\\s*(script|before_script|after_script)\\s*]").matchEntire(node.value)
+        if (reference != null) {
+            val job = root.children.firstOrNull { it.key == reference.groupValues[1] } ?: return null
+            val field = inherited(job, reference.groupValues[2], root)
+            return field.node?.let { scripts(it, root, seen + node.start) }
+        }
+        return when {
         node.block != null -> listOf(node.children.last().let { it.value to it.start })
-        node.value.isNotBlank() -> listOfNotNull(scalar(node))
-        else -> node.children.flatMap(::scripts)
+        node.value == "[]" -> emptyList()
+        node.value.isNotBlank() -> scalar(node)?.let { listOf(it) }
+        else -> node.children.flatMap { scripts(it, root, seen + node.start) ?: return null }
+        }
     }
 
     private fun workingDirectory(run: Node): String? {
