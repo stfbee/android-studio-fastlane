@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <vendor>Fastlane Navigator contributors</vendor>
     <description><![CDATA[
         Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
@@ -14,6 +14,8 @@
     <depends>org.jetbrains.plugins.textmate</depends>
     <extensions defaultExtensionNs="com.intellij">
         <textmate.bundleProvider implementation="dev.fastlane.ide.FastlaneBundleProvider"/>
+        <fileIconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>
+        <iconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>
         <lang.psiStructureViewFactory language="textmate" implementationClass="dev.fastlane.ide.FastlaneStructureFactory"/>
         <gotoDeclarationHandler implementation="dev.fastlane.ide.FastlaneGotoDeclaration"/>
         <targetElementEvaluator language="textmate" implementationClass="dev.fastlane.ide.LaneTargetEvaluator"/>

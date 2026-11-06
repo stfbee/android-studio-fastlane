@@ -80,12 +80,43 @@ class IdeSmokeStarter : ApplicationStarter {
             }
             ReadAction.run<RuntimeException> {
                 val registry = FileTypeRegistry.getInstance()
+                val iconProvider = com.intellij.ide.FileIconProvider.EP_NAME.extensionList
+                    .filterIsInstance<FastlaneFileIconProvider>().single()
                 for (virtualFile in virtualFiles) {
                     val type = registry.getFileTypeByFile(virtualFile)
                     check(type.name == "textmate") { "${virtualFile.name} -> ${type.name}" }
                     check(TextMateService.getInstance().getLanguageDescriptorByFileName(virtualFile.name) != null)
                     lines += "${virtualFile.name}: ${type.name}"
+                    check(iconProvider.getIcon(virtualFile, 0, project) === FastlaneIcons.FILE)
                 }
+                check(iconProvider.getIcon(com.intellij.testFramework.LightVirtualFile("ordinary.rb", "puts 1"), 0, project) == null)
+                check(iconProvider.getIcon(com.intellij.testFramework.LightVirtualFile("Gemfile.lock", "GEM"), 0, project) == null)
+                val logo = com.intellij.openapi.util.IconLoader.getIcon("/META-INF/pluginIcon.svg", FastlaneIcons::class.java)
+                check(logo.iconWidth == 40 && logo.iconHeight == 40)
+                check(FastlaneIcons.FILE.iconWidth == 16 && FastlaneIcons.FILE.iconHeight == 16)
+                val preview = java.awt.image.BufferedImage(640, 176, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+                val graphics = preview.createGraphics()
+                try {
+                    for ((index, background) in listOf(java.awt.Color.WHITE, java.awt.Color(0x2b2d30)).withIndex()) {
+                        val left = index * 320
+                        graphics.color = background
+                        graphics.fillRect(left, 0, 320, 176)
+                        graphics.color = if (index == 0) java.awt.Color(0x222222) else java.awt.Color(0xdddddd)
+                        graphics.font = java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14)
+                        graphics.drawString("Fastlane Navigator", left + 20, 24)
+                        logo.paintIcon(null, graphics, left + 24, 46)
+                        val large = graphics.create() as java.awt.Graphics2D
+                        try {
+                            large.translate(left + 92, 42)
+                            large.scale(2.0, 2.0)
+                            logo.paintIcon(null, large, 0, 0)
+                        } finally { large.dispose() }
+                        FastlaneIcons.FILE.paintIcon(null, graphics, left + 24, 140)
+                        graphics.drawString("Fastfile   Pluginfile   Gemfile", left + 48, 153)
+                    }
+                } finally { graphics.dispose() }
+                javax.imageio.ImageIO.write(preview, "png", report.parent.resolve("icons-preview.png").toFile())
+                lines += "Icons: plugin logo 40px, file icon 16px, registration, supported files and exclusions verified"
                 val nodes = FastlaneAnalysis.analyze(source)
                 check(nodes.map { it.name } == listOf("android", "ios")) { "Platforms: $nodes" }
                 check(nodes[0].children.map { it.name } == listOf("release", "build")) { "Android lanes: $nodes" }

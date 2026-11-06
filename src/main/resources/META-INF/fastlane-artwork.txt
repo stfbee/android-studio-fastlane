@@ -1,0 +1,11 @@
+Fastlane logo artwork
+
+The logo identifies the Fastlane technology supported by this independent plugin.
+Original favicon: https://github.com/fastlane/docs/blob/master/docs/img/favicon.ico
+Vector SVG supplied by the user with SVG Repo metadata. Matching vector geometry:
+https://github.com/gilbarbara/logos/blob/main/logos/fastlane.svg
+Collection dedication: https://github.com/gilbarbara/logos/blob/main/LICENSE.txt (CC0 1.0)
+
+The source paths and colors are unchanged; only canvas dimensions and padding
+were adapted for IntelliJ Platform plugin and file icon sizes.
+Fastlane branding and trademarks remain with their respective owners.

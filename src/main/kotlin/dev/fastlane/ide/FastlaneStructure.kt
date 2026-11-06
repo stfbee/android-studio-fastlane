@@ -45,7 +45,7 @@ private class OutlineElement(private val file: PsiFile, private val node: Declar
         override fun getIcon(unused: Boolean): Icon = when (node?.kind) {
             "platform" -> AllIcons.Nodes.Package
             "private_lane" -> AllIcons.Nodes.Private
-            null -> AllIcons.FileTypes.Text
+            null -> FastlaneIcons.FILE
             else -> AllIcons.Nodes.Method
         }
     }

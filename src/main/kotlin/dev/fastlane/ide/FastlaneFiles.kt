@@ -6,6 +6,13 @@ import org.jetbrains.plugins.textmate.api.TextMateBundleProvider
 
 object FastlaneFiles {
     fun isFastfile(name: String) = name == "Fastfile" || name == "Fastfile.rb"
+
+    private val supportedNames = setOf(
+        "Fastfile", "Fastfile.rb", "Pluginfile", "Gemfile", "Appfile", "Deliverfile", "Matchfile",
+        "Scanfile", "Snapfile", "Gymfile", "Screengrabfile", "Supplyfile", "Certfile", "Sighfile",
+        "Pemfile", "Pilotfile", "Framefile",
+    )
+    fun isSupported(name: String) = name in supportedNames
 }
 
 class FastlaneBundleProvider : TextMateBundleProvider, PluginAware {
