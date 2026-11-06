@@ -231,6 +231,7 @@ class IdeSmokeStarter : ApplicationStarter {
             }
             checkNotNull(backgroundSearch).run()
             lines += FormatterSmoke.run(project, report.parent)
+            lines += CiNavigationSmoke.run(project, report.parent)
             Files.writeString(report, lines.joinToString("\n", postfix = "\nPASS\n"))
             exitProcess(0)
         } catch (failure: Throwable) {

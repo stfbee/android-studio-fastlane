@@ -1,12 +1,13 @@
 <idea-plugin>
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.1.6</version>
+    <version>0.2.0</version>
     <vendor>Fastlane Navigator contributors</vendor>
     <description><![CDATA[
         Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
         File Structure, navigation to literal lane declarations and Find Usages within the current Fastfile.
         Reformat supported files with the bundled Syntax Tree formatter (requires Ruby 2.7+).
+        Navigate from literal GitHub Actions and GitLab CI Fastlane commands to lane declarations.
         Never executes the user's Fastfile or runs Fastlane.
     ]]></description>
     <idea-version since-build="262" until-build="262.*"/>
@@ -24,6 +25,7 @@
         <iconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>
         <lang.psiStructureViewFactory language="textmate" implementationClass="dev.fastlane.ide.FastlaneStructureFactory"/>
         <gotoDeclarationHandler implementation="dev.fastlane.ide.FastlaneGotoDeclaration"/>
+        <gotoDeclarationHandler implementation="dev.fastlane.ide.CiLaneNavigation"/>
         <targetElementEvaluator language="textmate" implementationClass="dev.fastlane.ide.LaneTargetEvaluator"/>
         <!-- TextMate's unparsed leaf has Language.ANY (empty ID), not the file's language. -->
         <targetElementEvaluator language="" implementationClass="dev.fastlane.ide.LaneTargetEvaluator"/>

@@ -15,7 +15,7 @@ class LaneNavigationElement(private val file: PsiFile, val declaration: Declarat
     override fun getTextOffset() = declaration.nameOffset
     override fun getTextRange() = TextRange.from(declaration.nameOffset, declaration.name.length)
     override fun getPresentableText() = declaration.name
-    override fun getLocationString() = file.name
+    override fun getLocationString() = file.virtualFile?.path ?: file.name
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Method
     override fun isValid() = file.isValid && textRange.endOffset <= file.textLength &&
         file.text.regionMatches(textOffset, declaration.name, 0, declaration.name.length)
