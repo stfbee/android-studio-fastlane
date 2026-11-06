@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>dev.fastlane.ide</id>
+    <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
     <version>0.1.3</version>
     <vendor>Fastlane Navigator contributors</vendor>

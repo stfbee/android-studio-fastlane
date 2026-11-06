@@ -9,13 +9,13 @@ mkdir -p "$SMOKE/plugins/fastlane-navigator/lib" "$SMOKE/metadata/META-INF" "$SM
 cp -R "$ROOT/build/staging/fastlane-navigator/" "$SMOKE/plugins/fastlane-navigator/"
 cat > "$SMOKE/metadata/META-INF/plugin.xml" <<'XML'
 <idea-plugin>
-  <id>dev.fastlane.ide.smoke</id>
+  <id>ru.ovm.fastlane.as.smoke</id>
   <name>Fastlane IDE smoke test</name>
   <version>0.1.3</version>
   <vendor>Local tests</vendor>
   <idea-version since-build="262" until-build="262.*"/>
   <depends>com.intellij.modules.platform</depends>
-  <depends>dev.fastlane.ide</depends>
+  <depends>ru.ovm.fastlane.as</depends>
   <extensions defaultExtensionNs="com.intellij">
     <appStarter id="fastlane-smoke" implementation="dev.fastlane.ide.IdeSmokeStarter"/>
   </extensions>
