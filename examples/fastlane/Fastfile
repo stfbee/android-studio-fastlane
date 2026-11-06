@@ -1,0 +1,29 @@
+default_platform(:android)
+
+lane :shared_setup do
+  puts "Shared setup"
+end
+
+platform :android do
+  desc "Build a debug APK"
+  lane :debug do
+    build(build_type: "Debug")
+  end
+
+  desc "Build a release APK"
+  lane :release do
+    shared_setup
+    build(build_type: "Release")
+  end
+
+  private_lane :build do |options|
+    gradle(task: "assemble", build_type: options[:build_type])
+  end
+end
+
+platform :ios do
+  desc "Example of an identically named lane in another platform"
+  lane :release do
+    puts "iOS release"
+  end
+end

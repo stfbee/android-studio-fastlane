@@ -1,0 +1,2 @@
+# Example only; used to check Ruby highlighting.
+gem "fastlane-plugin-example"

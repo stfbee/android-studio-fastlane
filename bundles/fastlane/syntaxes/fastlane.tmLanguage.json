@@ -1,0 +1,5 @@
+{
+  "name": "Fastlane Ruby",
+  "scopeName": "source.fastlane",
+  "patterns": [{"include": "source.ruby"}]
+}

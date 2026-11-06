@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>dev.fastlane.ide</id>
+    <name>Fastlane Navigator</name>
+    <version>0.1.3</version>
+    <vendor>Fastlane Navigator contributors</vendor>
+    <description><![CDATA[
+        Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
+        File Structure, navigation to literal lane declarations and Find Usages within the current Fastfile.
+        Static analysis only; does not execute Ruby or Fastlane.
+    ]]></description>
+    <idea-version since-build="262" until-build="262.*"/>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.plugins.textmate</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <textmate.bundleProvider implementation="dev.fastlane.ide.FastlaneBundleProvider"/>
+        <lang.psiStructureViewFactory language="textmate" implementationClass="dev.fastlane.ide.FastlaneStructureFactory"/>
+        <gotoDeclarationHandler implementation="dev.fastlane.ide.FastlaneGotoDeclaration"/>
+        <targetElementEvaluator language="textmate" implementationClass="dev.fastlane.ide.LaneTargetEvaluator"/>
+        <!-- TextMate's unparsed leaf has Language.ANY (empty ID), not the file's language. -->
+        <targetElementEvaluator language="" implementationClass="dev.fastlane.ide.LaneTargetEvaluator"/>
+        <findUsagesHandlerFactory implementation="dev.fastlane.ide.LaneFindUsagesFactory" order="first"/>
+        <lang.findUsagesProvider language="textmate" implementationClass="dev.fastlane.ide.LaneFindUsagesProvider"/>
+    </extensions>
+</idea-plugin>

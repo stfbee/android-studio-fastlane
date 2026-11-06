@@ -1,0 +1,10 @@
+.gradle/
+.DS_Store
+.intellijPlatform/
+.kotlin/
+.idea/
+*.iml
+build/
+local.properties
+hs_err_pid*.log
+fastlane-smoke
