@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.fastlane"
-version = "0.1.4"
+version = "0.1.5"
 
 repositories {
     mavenCentral()
@@ -41,4 +41,11 @@ intellijPlatform {
 
 tasks.prepareSandbox {
     from("bundles") { into("${rootProject.name}/bundles") }
+    from("formatter") { into("${rootProject.name}/formatter") }
 }
+
+val rubyFormatterTest = tasks.register<Exec>("rubyFormatterTest") {
+    inputs.dir("formatter")
+    commandLine(providers.gradleProperty("rubyExecutable").getOrElse("ruby"), "formatter/test_formatter.rb")
+}
+tasks.check { dependsOn(rubyFormatterTest) }

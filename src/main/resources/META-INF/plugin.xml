@@ -1,12 +1,13 @@
 <idea-plugin>
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <vendor>Fastlane Navigator contributors</vendor>
     <description><![CDATA[
         Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
         File Structure, navigation to literal lane declarations and Find Usages within the current Fastfile.
-        Static analysis only; does not execute Ruby or Fastlane.
+        Reformat supported files with the bundled Syntax Tree formatter (requires Ruby 2.7+).
+        Never executes the user's Fastfile or runs Fastlane.
     ]]></description>
     <idea-version since-build="262" until-build="262.*"/>
     <depends>com.intellij.modules.platform</depends>
@@ -14,6 +15,11 @@
     <depends>org.jetbrains.plugins.textmate</depends>
     <extensions defaultExtensionNs="com.intellij">
         <textmate.bundleProvider implementation="dev.fastlane.ide.FastlaneBundleProvider"/>
+        <formattingService implementation="dev.fastlane.ide.FastlaneFormattingService" order="first"/>
+        <applicationService serviceImplementation="dev.fastlane.ide.FastlaneFormatterSettings"/>
+        <applicationConfigurable parentId="language" id="ru.ovm.fastlane.as.formatting" displayName="Fastlane"
+                                 instance="dev.fastlane.ide.FastlaneFormatterConfigurable"/>
+        <notificationGroup id="Fastlane formatting" displayType="BALLOON"/>
         <fileIconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>
         <iconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>
         <lang.psiStructureViewFactory language="textmate" implementationClass="dev.fastlane.ide.FastlaneStructureFactory"/>

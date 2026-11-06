@@ -33,7 +33,10 @@ class IdeSmokeStarter : ApplicationStarter {
     override fun main(args: List<String>) {
         val report = Path.of(System.getProperty("fastlane.smoke.report"))
         try {
-            val project = ProjectManager.getInstance().defaultProject
+            val project = com.intellij.openapi.project.ex.ProjectManagerEx.getInstanceEx()
+                .openProject(report.parent.resolve("project"), com.intellij.ide.impl.OpenProjectTask(
+                    isNewProject = true, useDefaultProjectAsTemplate = false))
+                ?: error("Could not create isolated test project")
             val source = """
                 desc "Publish Android"
                 platform :android do
@@ -224,6 +227,7 @@ class IdeSmokeStarter : ApplicationStarter {
                 }
             }
             checkNotNull(backgroundSearch).run()
+            lines += FormatterSmoke.run(project, report.parent)
             Files.writeString(report, lines.joinToString("\n", postfix = "\nPASS\n"))
             exitProcess(0)
         } catch (failure: Throwable) {
