@@ -69,7 +69,7 @@ For a historical tag without workflows, run **Actions → Release plugin → Run
 
 ## Marketplace resource links
 
-The descriptor supplies the project homepage, vendor profile, and inline resource links. The dedicated links in the IDE's **Additional Info** tab are managed through the Marketplace listing's **Additional Information** settings:
+The descriptor supplies the project homepage, vendor profile, and inline resource links. The dedicated links in the IDE's **Additional Info** tab are managed through the Marketplace listing's **Technical Information** settings:
 
 | Field | URL |
 | --- | --- |
