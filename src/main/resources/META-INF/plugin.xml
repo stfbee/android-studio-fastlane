@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.2.1</version>
-    <vendor>Fastlane Navigator contributors</vendor>
+    <version>0.2.2</version>
+    <vendor>Vladislav Onishchenko</vendor>
     <description><![CDATA[
         Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
         File Structure, navigation to literal lane declarations and Find Usages within the current Fastfile.
@@ -10,6 +10,50 @@
         Navigate from literal GitHub Actions and GitLab CI Fastlane commands to lane declarations.
         Never executes the user's Fastfile or runs Fastlane.
     ]]></description>
+    <change-notes><![CDATA[
+        <h3>0.2.2</h3>
+        <ul>
+            <li>Добавлена история изменений в карточку плагина и CHANGELOG.md в репозитории.</li>
+            <li>Имя разработчика изменено на Vladislav Onishchenko.</li>
+        </ul>
+        <h3>0.2.1</h3>
+        <ul>
+            <li>Переход из with.lane у maierj/fastlane-action с учётом with.subdirectory.</li>
+            <li>Поддержка GitLab extends и !reference в одном файле, включая наследуемый before_script.</li>
+            <li>Проверки неизвестных родителей и циклов наследования.</li>
+            <li>В Studio проверены 9 переходов из реальных GitHub Actions и 6 из GitLab CI.</li>
+        </ul>
+        <h3>0.2.0</h3>
+        <ul>
+            <li>Переход из GitHub Actions и .gitlab-ci.yml к объявлениям lanes в Fastfile.</li>
+            <li>Поддержка fastlane release и bundle exec fastlane android release.</li>
+            <li>Учёт платформы, default_platform, working-directory, простого cd и before_script.</li>
+            <li>Выбор при нескольких Fastfile; исключение private lanes, комментариев, echo и динамических имён.</li>
+        </ul>
+        <h3>0.1.6</h3>
+        <ul>
+            <li>Исправлено форматирование многострочных Ruby-строк, включая тройные кавычки.</li>
+            <li>Сохраняются кавычки, интерполяция и внутренние отступы.</li>
+        </ul>
+        <h3>0.1.5</h3>
+        <ul>
+            <li>Форматирование поддерживаемых файлов через Reformat Code; Syntax Tree и prettier_print включены в плагин.</li>
+            <li>Автоматический поиск Ruby и настройка пути к нему; требуется Ruby 2.7+.</li>
+            <li>Обработка несохранённого текста в фоне, отмена и поддержка стандартного Reformat Code при сохранении.</li>
+            <li>При ошибке синтаксиса или запуска Ruby документ остаётся без изменений.</li>
+        </ul>
+        <h3>0.1.4</h3>
+        <ul>
+            <li>SVG-иконки плагина и файлов на основе логотипа Fastlane.</li>
+        </ul>
+        <h3>0.1.3</h3>
+        <ul>
+            <li>Первая версия в репозитории: Ruby-подсветка и распознавание конфигурационных файлов Fastlane через TextMate.</li>
+            <li>Structure и File Structure с платформами, lanes и описаниями desc.</li>
+            <li>Переходы между вызовами и объявлениями lanes, Find Usages и точные позиции навигации.</li>
+            <li>В отдельном обновлении этой версии ID изменён на ru.ovm.fastlane.as. Старый плагин dev.fastlane.ide нужно удалить.</li>
+        </ul>
+    ]]></change-notes>
     <idea-version since-build="262" until-build="262.*"/>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>

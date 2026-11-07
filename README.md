@@ -6,7 +6,9 @@
 
 ID плагина: `ru.ovm.fastlane.as`.
 
-## Версия 0.2.1
+Разработчик: Vladislav Onishchenko. [История изменений](CHANGELOG.md).
+
+## Версия 0.2.2
 
 Переход из CI к объявлению lane: **⌘Click / ⌘B** на имени в `fastlane release` или `bundle exec fastlane android release`.
 Поддерживаются `.github/workflows/*.yml`, `*.yaml` и `.gitlab-ci.yml`: однострочные команды, блоки `|` и списки GitLab `script` / `before_script` / `after_script`.
@@ -41,7 +43,7 @@ Fastfile ищется в рабочей папке и её родителях: `
 
 ## Установка
 
-1. Скачать или собрать `fastlane-navigator-0.2.1.zip`.
+1. Скачать или собрать `fastlane-navigator-0.2.2.zip`.
 2. В Android Studio открыть **Settings → Plugins → шестерёнка → Install Plugin from Disk…**.
 3. Выбрать ZIP целиком и перезапустить IDE, если она предложит.
 4. Открыть Fastfile и вызвать **Navigate → File Structure** (`⌘F12`).
@@ -78,7 +80,7 @@ Fastfile ищется в рабочей папке и её родителях: `
 ./gradlew check buildPlugin '-Dorg.gradle.java.installations.paths=/path/to/studio/Contents/jbr/Contents/Home'
 ```
 
-Архив: `build/distributions/fastlane-navigator-0.2.1.zip`.
+Архив: `build/distributions/fastlane-navigator-0.2.2.zip`.
 
 Для разработки с отдельными настройками IDE:
 

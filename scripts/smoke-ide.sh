@@ -11,7 +11,7 @@ cat > "$SMOKE/metadata/META-INF/plugin.xml" <<'XML'
 <idea-plugin>
   <id>ru.ovm.fastlane.as.smoke</id>
   <name>Fastlane IDE smoke test</name>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
   <vendor>Local tests</vendor>
   <idea-version since-build="262" until-build="262.*"/>
   <depends>com.intellij.modules.platform</depends>
