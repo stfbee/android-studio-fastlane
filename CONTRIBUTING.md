@@ -1,14 +1,14 @@
 # Contributing
 
-Bug reports and pull requests are welcome. For navigation issues, include a minimal Fastfile and CI snippet, the expected target, and your Android Studio build number.
+Bug reports and pull requests are welcome. For navigation issues, include a minimal Fastfile and CI snippet, the expected target, and your IDE name and build number.
 
 ## Development setup
 
-- Android Studio on IntelliJ Platform 262.*, including TextMate.
+- An IntelliJ-based IDE on platform 262.*, including TextMate.
 - Java 25; the Studio-bundled runtime can be used.
 - Ruby for formatter tests. CI uses Ruby 4.0.9.
 
-Gradle defaults to `~/Applications/Android Studio.app/Contents`. Override it with `-PstudioPath=/path/to/studio` or `ANDROID_STUDIO_HOME`. On macOS, use the app's `Contents` directory.
+Gradle defaults to `~/Applications/Android Studio.app/Contents`. Select another SDK with `-PidePath=/path/to/ide` or `INTELLIJ_HOME`. The legacy `studioPath` property and `ANDROID_STUDIO_HOME` variable remain supported. On macOS, use the app's `Contents` directory.
 
 ```sh
 ./gradlew check buildPlugin verifyPluginStructure
@@ -41,6 +41,8 @@ bash scripts/smoke-ide.sh
 
 The smoke test covers file recognition, navigation, Find Usages, structure, formatting, and CI navigation. Results are written to `build/ide-smoke/result.txt`; a successful run ends with `PASS`. Settings and caches stay under `build/ide-smoke`.
 
+Set `INTELLIJ_HOME` to test another installed IDE. `FASTLANE_SMOKE_HOME` selects a separate report/config/cache directory for each IDE. If the target IDE ships a runtime without JDK tools, set `FASTLANE_JDK_HOME` to a full Java 25 JDK for packaging the test module. The target IDE still launches with its own runtime. The offline build helper also accepts `FASTLANE_JDK_HOME` and needs an IDE with a bundled Kotlin compiler.
+
 To also check CI navigation against a local checkout, set `FASTLANE_CI_PROJECT` when running the smoke script. That checkout is read without modifying its files.
 
 ## Documentation
@@ -59,8 +61,8 @@ Keep installation and behavior in the README, development instructions here, and
 For a release, update the version in `build.gradle.kts`, `plugin.xml`, `bundles/fastlane/package.json`, and both helper scripts. Add a section to `CHANGELOG.md`, update the plugin change notes, and push the commit before its tag:
 
 ```sh
-git tag -a v0.2.4 -m "Fastlane Navigator 0.2.4"
-git push origin v0.2.4
+git tag -a v0.2.5 -m "Fastlane Navigator 0.2.5"
+git push origin v0.2.5
 ```
 
 **Release plugin** builds the tagged source and publishes a GitHub Release with its ZIP and changelog only after checks pass. Re-running it updates the existing release. It uses the built-in `GITHUB_TOKEN`.

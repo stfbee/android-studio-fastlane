@@ -1,12 +1,12 @@
 <idea-plugin url="https://github.com/stfbee/android-studio-fastlane">
-    <id>ru.ovm.fastlane.as</id>
+    <id>ru.ovm.fastlane.navigator</id>
     <name>Fastlane Navigator</name>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <vendor url="https://github.com/stfbee">Vladislav Onishchenko</vendor>
     <description><![CDATA[
         <p><img src="https://raw.githubusercontent.com/stfbee/android-studio-fastlane/main/docs/images/banner.png"
                 alt="Fastlane Navigator" width="640" height="175"></p>
-        <p>Navigate Fastlane lanes and edit Ruby configuration files directly in Android Studio.</p>
+        <p>Navigate Fastlane lanes and edit Ruby configuration files in IntelliJ-based IDEs.</p>
         <h3>Features</h3>
         <ul>
             <li><b>Lane navigation:</b> jump between declarations and calls, with platform-aware resolution and Find Usages in the current Fastfile.</li>
@@ -19,7 +19,7 @@
         <p>Open a Fastfile and use <b>Go to Declaration or Usages</b> on a lane name to navigate between its declaration and calls. Use <b>File Structure</b> to browse lanes and <b>Find Usages</b> to list callers.</p>
         <p>To format a file, clear the selection and choose <b>Code → Reformat Code</b>. Ruby is detected automatically; configure its path under <b>Settings → Languages &amp; Frameworks → Fastlane</b> if needed.</p>
         <h3>Requirements</h3>
-        <p>Android Studio on platform <b>262.*</b>, with TextMate Bundles and its Ruby bundle enabled. A local Ruby installation is needed only for formatting; the formatter is tested with Ruby 4.0.9 and includes its required gems.</p>
+        <p>An IntelliJ-based IDE on platform <b>262.*</b>, with TextMate Bundles and its Ruby bundle enabled. Verified in Android Studio, IntelliJ IDEA, and PyCharm. A local Ruby installation is needed only for formatting; the formatter is tested with Ruby 4.0.9 and includes its required gems.</p>
         <p>Navigation uses literal lane names. Ruby imports, dynamic names, external CI includes, and arbitrary shell programs are not resolved. The plugin never executes your Fastfile or runs Fastlane.</p>
         <h3>Resources</h3>
         <ul>
@@ -32,9 +32,9 @@
     ]]></description>
     <change-notes><![CDATA[
         <ul>
-            <li>Refreshed the plugin card and repository with a shared banner and English descriptions.</li>
-            <li>Added documentation, issue tracker, source code, release, and developer links.</li>
-            <li>Added Russian documentation translations and moved development instructions out of the main README.</li>
+            <li>Changed the plugin ID to ru.ovm.fastlane.navigator. Uninstall the previous ru.ovm.fastlane.as or dev.fastlane.ide plugin before installing this build.</li>
+            <li>Verified the same plugin build in Android Studio, IntelliJ IDEA, and PyCharm on platform 262.*.</li>
+            <li>Updated the description for IntelliJ-based IDEs and added a verified compatibility table.</li>
         </ul>
         <p><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/CHANGELOG.md">Full changelog</a></p>
     ]]></change-notes>
@@ -46,7 +46,7 @@
         <textmate.bundleProvider implementation="dev.fastlane.ide.FastlaneBundleProvider"/>
         <formattingService implementation="dev.fastlane.ide.FastlaneFormattingService" order="first"/>
         <applicationService serviceImplementation="dev.fastlane.ide.FastlaneFormatterSettings"/>
-        <applicationConfigurable parentId="language" id="ru.ovm.fastlane.as.formatting" displayName="Fastlane"
+        <applicationConfigurable parentId="language" id="ru.ovm.fastlane.navigator.formatting" displayName="Fastlane"
                                  instance="dev.fastlane.ide.FastlaneFormatterConfigurable"/>
         <notificationGroup id="Fastlane formatting" displayType="BALLOON"/>
         <fileIconProvider implementation="dev.fastlane.ide.FastlaneFileIconProvider" order="first"/>

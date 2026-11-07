@@ -1,11 +1,11 @@
 ![Fastlane Navigator](docs/images/banner.png)
 
-<p align="center">Редактирование Fastlane, навигация по lanes и форматирование в Android Studio.</p>
+<p align="center">Редактирование Fastlane, навигация по lanes и форматирование в IDE на платформе IntelliJ.</p>
 
 <p align="center">
   <a href="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml"><img src="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml/badge.svg" alt="Сборка"></a>
   <a href="https://github.com/stfbee/android-studio-fastlane/releases/latest"><img src="https://img.shields.io/github/v/release/stfbee/android-studio-fastlane" alt="Последний релиз"></a>
-  <a href="#требования"><img src="https://img.shields.io/badge/Android%20Studio-262.*-3DDC84" alt="Android Studio 262.*"></a>
+  <a href="#требования"><img src="https://img.shields.io/badge/IntelliJ%20Platform-262.*-6B57FF" alt="IntelliJ Platform 262.*"></a>
 </p>
 
 <p align="center"><a href="README.md">English</a> · Русский</p>
@@ -22,7 +22,9 @@
 
 1. Скачайте ZIP из [GitHub Releases](https://github.com/stfbee/android-studio-fastlane/releases/latest).
 2. Откройте **Settings → Plugins → ⚙ → Install Plugin from Disk…** и выберите ZIP.
-3. Перезапустите Android Studio, если она предложит, и откройте Fastfile.
+3. Перезапустите IDE, если она предложит, и откройте Fastfile.
+
+ID плагина — `ru.ovm.fastlane.navigator`. При обновлении с `ru.ovm.fastlane.as` или `dev.fastlane.ide` сначала удалите прежний Fastlane Navigator: для IDE новый ID означает отдельный плагин.
 
 ## Использование
 
@@ -63,9 +65,21 @@ bundle exec fastlane android release
 
 ## Требования
 
-- Android Studio на IntelliJ Platform **262.***.
+- IDE на IntelliJ Platform **262.***.
 - Включённые **TextMate Bundles** и встроенный Ruby-бандл.
 - Локальный Ruby **только для форматирования**. Форматтер проверяется с Ruby **4.0.9**; Syntax Tree и prettier_print включены в плагин, устанавливать gems не нужно.
+
+### Проверенные IDE
+
+Одна и та же сборка прошла интеграционные проверки навигации, Find Usages, структуры, форматирования и переходов из GitHub/GitLab CI в следующих установках на macOS ARM64:
+
+| IDE | Сборка |
+| --- | --- |
+| Android Studio Rabbit 2 RC 1 | `AI-262.10968.63.2622.16665580` |
+| IntelliJ IDEA 2026.2.3 | `IU-262.10968.63` |
+| PyCharm 2026.2.3 | `PY-262.10968.92` |
+
+Другие продукты на IntelliJ Platform с подходящей веткой платформы и TextMate могут работать, но пока не проверены. Совместимость с более ранними и новыми ветками платформы не заявлена.
 
 <details>
 <summary>Нет подсветки синтаксиса?</summary>

@@ -1,11 +1,11 @@
 ![Fastlane Navigator](docs/images/banner.png)
 
-<p align="center">Fastlane editing, lane navigation, and formatting for Android Studio.</p>
+<p align="center">Fastlane editing, lane navigation, and formatting for IntelliJ-based IDEs.</p>
 
 <p align="center">
   <a href="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml"><img src="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <a href="https://github.com/stfbee/android-studio-fastlane/releases/latest"><img src="https://img.shields.io/github/v/release/stfbee/android-studio-fastlane" alt="Latest release"></a>
-  <a href="#requirements"><img src="https://img.shields.io/badge/Android%20Studio-262.*-3DDC84" alt="Android Studio 262.*"></a>
+  <a href="#requirements"><img src="https://img.shields.io/badge/IntelliJ%20Platform-262.*-6B57FF" alt="IntelliJ Platform 262.*"></a>
 </p>
 
 <p align="center">English · <a href="README.ru.md">Русский</a></p>
@@ -22,7 +22,9 @@
 
 1. Download the plugin ZIP from [GitHub Releases](https://github.com/stfbee/android-studio-fastlane/releases/latest).
 2. Open **Settings → Plugins → ⚙ → Install Plugin from Disk…** and select the ZIP.
-3. Restart Android Studio if prompted, then open your Fastfile.
+3. Restart your IDE if prompted, then open your Fastfile.
+
+The plugin ID is `ru.ovm.fastlane.navigator`. When upgrading from `ru.ovm.fastlane.as` or `dev.fastlane.ide`, uninstall the previous Fastlane Navigator first: the IDE treats a new ID as a separate plugin.
 
 ## Usage
 
@@ -63,9 +65,21 @@ Highlighting, file icons, and formatting apply to these files. Lane navigation a
 
 ## Requirements
 
-- Android Studio on IntelliJ Platform **262.***.
+- An IntelliJ-based IDE on platform **262.***.
 - The bundled **TextMate Bundles** plugin and Ruby bundle enabled.
 - A local Ruby installation **for formatting only**. The formatter is tested with Ruby **4.0.9**; Syntax Tree and prettier_print are bundled, so no gem installation is needed.
+
+### Verified IDEs
+
+The same plugin build has passed integration checks for navigation, Find Usages, structure, formatting, and GitHub/GitLab CI navigation in these macOS ARM64 installations:
+
+| IDE | Build |
+| --- | --- |
+| Android Studio Rabbit 2 RC 1 | `AI-262.10968.63.2622.16665580` |
+| IntelliJ IDEA 2026.2.3 | `IU-262.10968.63` |
+| PyCharm 2026.2.3 | `PY-262.10968.92` |
+
+Other IntelliJ-based products with matching platform and TextMate dependencies may work, but have not yet been verified. Compatibility with older or newer platform branches is not claimed.
 
 <details>
 <summary>No syntax highlighting?</summary>

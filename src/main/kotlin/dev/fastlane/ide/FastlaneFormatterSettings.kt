@@ -26,7 +26,7 @@ class FastlaneFormatterSettings : PersistentStateComponent<FastlaneFormatterSett
 
 class FastlaneFormatterConfigurable : SearchableConfigurable {
     private var ruby: JTextField? = null
-    override fun getId() = "ru.ovm.fastlane.as.formatting"
+    override fun getId() = "ru.ovm.fastlane.navigator.formatting"
     override fun getDisplayName() = "Fastlane"
     override fun createComponent(): JComponent {
         val field = JTextField()

@@ -1,14 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-# Offline build against an installed Android Studio; no downloads or user IDE changes.
+# Offline build against an installed IntelliJ-based IDE.
 cd "$(dirname "$0")/.."
 ROOT="$PWD"
-IDE="${ANDROID_STUDIO_HOME:-$HOME/Applications/Android Studio.app/Contents}"
-JDK="$IDE/jbr/Contents/Home"
+IDE="${INTELLIJ_HOME:-${ANDROID_STUDIO_HOME:-$HOME/Applications/Android Studio.app/Contents}}"
+JDK="${FASTLANE_JDK_HOME:-$IDE/jbr/Contents/Home}"
 KOTLIN="$IDE/plugins/Kotlin/kotlinc/lib"
 if [[ ! -f "$KOTLIN/kotlin-compiler.jar" ]]; then
-  echo "Set ANDROID_STUDIO_HOME to the Android Studio Contents directory." >&2
+  echo "Set INTELLIJ_HOME to an IDE Contents directory with the Kotlin compiler and TextMate." >&2
   exit 1
 fi
 CP=""
@@ -26,11 +26,11 @@ mkdir -p "$ROOT/build/local/classes" "$ROOT/build/local/test-classes" "$ROOT/bui
 cp -R "$ROOT/bundles" "$ROOT/build/staging/fastlane-navigator/"
 cp -R "$ROOT/formatter" "$ROOT/build/staging/fastlane-navigator/"
 cd "$ROOT/build/staging"
-rm -f "$ROOT/build/distributions/fastlane-navigator-0.2.3.zip"
-zip -qr "$ROOT/build/distributions/fastlane-navigator-0.2.3.zip" fastlane-navigator
+rm -f "$ROOT/build/distributions/fastlane-navigator-0.2.4.zip"
+zip -qr "$ROOT/build/distributions/fastlane-navigator-0.2.4.zip" fastlane-navigator
 "$JDK/bin/java" -cp "$KOTLIN/*" org.jetbrains.kotlin.cli.jvm.K2JVMCompiler \
   -no-stdlib -no-reflect -jvm-target 21 -jdk-home "$JDK" -classpath "$CP:$ROOT/build/local/classes" \
   -d "$ROOT/build/local/test-classes" "$ROOT/src/test/kotlin"
 "$JDK/bin/java" -cp "$CP:$ROOT/build/local/classes:$ROOT/build/local/test-classes" dev.fastlane.ide.OutlineTestKt
 "${FASTLANE_RUBY:-ruby}" "$ROOT/formatter/test_formatter.rb"
-echo "Built: $ROOT/build/distributions/fastlane-navigator-0.2.3.zip"
+echo "Built: $ROOT/build/distributions/fastlane-navigator-0.2.4.zip"

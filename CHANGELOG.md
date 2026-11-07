@@ -2,6 +2,13 @@
 
 English · [Русский](CHANGELOG.ru.md)
 
+## 0.2.4
+
+- Changed the plugin ID to `ru.ovm.fastlane.navigator`. Uninstall the previous `ru.ovm.fastlane.as` or `dev.fastlane.ide` plugin before upgrading.
+- Verified the same plugin build in Android Studio, IntelliJ IDEA 2026.2.3, and PyCharm 2026.2.3 on macOS ARM64, including navigation, Find Usages, structure, formatting, and real GitHub/GitLab CI targets.
+- Updated the presentation for IntelliJ-based IDEs while retaining the platform 262.* and TextMate requirements.
+- Added generic IDE/JDK paths and isolated per-IDE directories to the local test helpers.
+
 ## 0.2.3
 
 - Refreshed the plugin card and repository with a shared banner and English descriptions.

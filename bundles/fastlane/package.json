@@ -1,7 +1,7 @@
 {
   "name": "fastlane-navigator-ruby",
   "displayName": "Fastlane Ruby",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "contributes": {
     "languages": [{
       "id": "fastlane-ruby",

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.fastlane"
-version = "0.2.3"
+version = "0.2.4"
 
 repositories {
     mavenCentral()
@@ -15,9 +15,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testRuntimeOnly(kotlin("stdlib"))
     intellijPlatform {
-        local(providers.gradleProperty("studioPath").orElse(
-            providers.environmentVariable("ANDROID_STUDIO_HOME").orElse(
-                "${System.getProperty("user.home")}/Applications/Android Studio.app/Contents")))
+        local(providers.gradleProperty("idePath").orElse(providers.gradleProperty("studioPath")).orElse(
+            providers.environmentVariable("INTELLIJ_HOME")).orElse(
+            providers.environmentVariable("ANDROID_STUDIO_HOME")).orElse(
+                "${System.getProperty("user.home")}/Applications/Android Studio.app/Contents"))
         bundledPlugin("org.jetbrains.plugins.textmate")
     }
 }
