@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/stfbee/android-studio-fastlane">
     <id>ru.ovm.fastlane.navigator</id>
     <name>Fastlane Navigator</name>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
     <vendor url="https://github.com/stfbee">Vladislav Onishchenko</vendor>
     <description><![CDATA[
         <p><img src="https://raw.githubusercontent.com/stfbee/android-studio-fastlane/main/docs/images/banner.png"
@@ -21,20 +21,24 @@
         <h3>Requirements</h3>
         <p>An IntelliJ-based IDE on platform <b>262.*</b>, with TextMate Bundles and its Ruby bundle enabled. Verified in Android Studio, IntelliJ IDEA, and PyCharm. A local Ruby installation is needed only for formatting; the formatter is tested with Ruby 4.0.9 and includes its required gems.</p>
         <p>Navigation uses literal lane names. Ruby imports, dynamic names, external CI includes, and arbitrary shell programs are not resolved. The plugin never executes your Fastfile or runs Fastlane.</p>
+        <h3>License</h3>
+        <p>Original plugin code and written documentation are licensed under the <a href="https://github.com/stfbee/android-studio-fastlane/blob/main/LICENSE">MIT License</a>. Bundled components retain their own terms. Fastlane-derived artwork and trademarks are outside the project's MIT grant; their use remains under review. See <a href="https://github.com/stfbee/android-studio-fastlane/blob/main/THIRD_PARTY_NOTICES.md">third-party notices</a>.</p>
         <h3>Resources</h3>
         <ul>
             <li><a href="https://github.com/stfbee/android-studio-fastlane#readme">Documentation</a></li>
             <li><a href="https://github.com/stfbee/android-studio-fastlane/issues">Issue tracker</a></li>
             <li><a href="https://github.com/stfbee/android-studio-fastlane">Source code</a></li>
             <li><a href="https://github.com/stfbee/android-studio-fastlane/releases">Releases</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/LICENSE">License</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/THIRD_PARTY_NOTICES.md">Third-party notices</a></li>
             <li><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/README.ru.md">Документация на русском</a></li>
         </ul>
     ]]></description>
     <change-notes><![CDATA[
         <ul>
-            <li>Changed the plugin ID to ru.ovm.fastlane.navigator. Uninstall the previous ru.ovm.fastlane.as or dev.fastlane.ide plugin before installing this build.</li>
-            <li>Verified the same plugin build in Android Studio, IntelliJ IDEA, and PyCharm on platform 262.*.</li>
-            <li>Updated the description for IntelliJ-based IDEs and added a verified compatibility table.</li>
+            <li>Added the MIT license for original plugin code and written documentation.</li>
+            <li>Bundled project and third-party legal notices in the plugin ZIP.</li>
+            <li>Documented the separate, pending permission review for Fastlane-derived artwork.</li>
         </ul>
         <p><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/CHANGELOG.md">Full changelog</a></p>
     ]]></change-notes>

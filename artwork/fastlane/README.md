@@ -7,3 +7,5 @@
 The file icon (`icons/fastlaneFile.svg`, 16×16) reuses the supplied SVG paths and colors unchanged, with adjusted canvas size and transparent padding. The plugin logo (`META-INF/pluginIcon.svg`, 40×40) uses a yellow diamond road sign with monochrome Fastlane paths and a navigation arrow; all four logo variants are preserved in [../logo-concepts](../logo-concepts).
 
 The Fastlane name and logo identify the supported technology; this plugin is an independent integration.
+
+Permission review for the Fastlane logo and its derivatives is pending. The SVG collection's CC0 dedication does not establish permission from the original logo owner or grant trademark rights. These assets are outside the project's MIT license grant; see [third-party notices](../../THIRD_PARTY_NOTICES.md).

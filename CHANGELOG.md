@@ -2,6 +2,13 @@
 
 English · [Русский](CHANGELOG.ru.md)
 
+## 0.2.5
+
+- Added the MIT license for original plugin code and written documentation, copyright 2026 Vladislav Onishchenko.
+- Added third-party notices and packaged them with the project license, upstream Ruby library licenses, and the SVG collection's CC0 text.
+- Added license and notice links to the plugin card and documentation.
+- Recorded the separate, pending permission review for Fastlane-derived artwork and trademarks.
+
 ## 0.2.4
 
 - Changed the plugin ID to `ru.ovm.fastlane.navigator`. Uninstall the previous `ru.ovm.fastlane.as` or `dev.fastlane.ide` plugin before upgrading.

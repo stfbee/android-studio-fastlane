@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.fastlane"
-version = "0.2.4"
+version = "0.2.5"
 
 repositories {
     mavenCentral()
@@ -43,6 +43,8 @@ intellijPlatform {
 tasks.prepareSandbox {
     from("bundles") { into("${rootProject.name}/bundles") }
     from("formatter") { into("${rootProject.name}/formatter") }
+    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md")) { into(rootProject.name) }
+    from("artwork/fastlane/VECTOR-LICENSE.txt") { into("${rootProject.name}/licenses/fastlane") }
 }
 
 val rubyFormatterTest = tasks.register<Exec>("rubyFormatterTest") {

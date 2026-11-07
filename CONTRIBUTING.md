@@ -61,8 +61,8 @@ Keep installation and behavior in the README, development instructions here, and
 For a release, update the version in `build.gradle.kts`, `plugin.xml`, `bundles/fastlane/package.json`, and both helper scripts. Add a section to `CHANGELOG.md`, update the plugin change notes, and push the commit before its tag:
 
 ```sh
-git tag -a v0.2.5 -m "Fastlane Navigator 0.2.5"
-git push origin v0.2.5
+git tag -a v0.2.6 -m "Fastlane Navigator 0.2.6"
+git push origin v0.2.6
 ```
 
 **Release plugin** builds the tagged source and publishes a GitHub Release with its ZIP and changelog only after checks pass. Re-running it updates the existing release. It uses the built-in `GITHUB_TOKEN`.
@@ -79,5 +79,12 @@ The descriptor supplies the project homepage, vendor profile, and inline resourc
 | Documentation | https://github.com/stfbee/android-studio-fastlane#readme |
 | Issue tracker | https://github.com/stfbee/android-studio-fastlane/issues |
 | Releases | https://github.com/stfbee/android-studio-fastlane/releases |
+| License | https://github.com/stfbee/android-studio-fastlane/blob/main/LICENSE |
 
 Marketplace publication is tracked in the [roadmap](ROADMAP.md).
+
+## Licensing and notices
+
+Original code and written documentation use the root MIT `LICENSE`. Third-party components and artwork retain their separate terms and review status in `THIRD_PARTY_NOTICES.md`. Preserve upstream license files when changing vendored components. Both Gradle and the offline build helper package the project license, third-party notices, Ruby library licenses, and the SVG collection's CC0 text in the ZIP.
+
+The Fastlane artwork review is pending; the code license does not grant permission to use its marks or logo derivatives.

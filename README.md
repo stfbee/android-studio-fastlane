@@ -100,4 +100,10 @@ The plugin never executes your Fastfile or runs Fastlane.
 
 Found a bug or have an idea? [Open an issue](https://github.com/stfbee/android-studio-fastlane/issues).
 
+## License
+
+Original plugin code and written documentation are licensed under the [MIT License](LICENSE), copyright © 2026 Vladislav Onishchenko.
+
+Bundled libraries retain their own MIT licenses. Fastlane-derived artwork and trademarks are outside the project's MIT grant; review of their use is pending. See [third-party notices](THIRD_PARTY_NOTICES.md) for sources, applicable notices, and the artwork review status.
+
 Created by [Vladislav Onishchenko](https://github.com/stfbee). An independent integration for Fastlane; see [artwork attribution](artwork/fastlane/README.md).

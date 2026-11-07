@@ -100,4 +100,10 @@ bundle exec fastlane android release
 
 Нашли ошибку или есть идея? [Создайте issue](https://github.com/stfbee/android-studio-fastlane/issues).
 
+## Лицензия
+
+Оригинальный код плагина и написанная для него документация распространяются под [MIT License](LICENSE), copyright © 2026 Vladislav Onishchenko.
+
+Включённые библиотеки сохраняют собственные MIT-лицензии. Графика на основе Fastlane и товарные знаки не входят в MIT-разрешение проекта; условия их использования ещё предстоит проверить. Источники, уведомления и статус проверки описаны в [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 Автор — [Vladislav Onishchenko](https://github.com/stfbee). Независимая интеграция с Fastlane; [источники графики](artwork/fastlane/README.md).
