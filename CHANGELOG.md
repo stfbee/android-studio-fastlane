@@ -1,51 +1,59 @@
-# История изменений
+# Changelog
+
+English · [Русский](CHANGELOG.ru.md)
+
+## 0.2.3
+
+- Refreshed the plugin card and repository with a shared banner and English descriptions.
+- Added documentation, issue tracker, source code, release, and developer links.
+- Added Russian documentation translations and separated development instructions from the user guide.
 
 ## 0.2.2
 
-- Добавлена история изменений в карточку плагина и файл `CHANGELOG.md` в репозитории.
-- Имя разработчика изменено на Vladislav Onishchenko.
-- Добавлены GitHub Actions для проверок и сборки ZIP, а также публикации GitHub Releases по тегам `v*` и ручному запуску для исторических версий.
+- Added release notes to the plugin card and `CHANGELOG.md` to the repository.
+- Changed the developer name to Vladislav Onishchenko.
+- Added GitHub Actions for checks, ZIP builds, and GitHub Releases from version tags or manual historical releases.
 
 ## 0.2.1
 
-- Добавлен переход к lane из `with.lane` у GitHub Action `maierj/fastlane-action`, с учётом `with.subdirectory`.
-- Добавлена поддержка GitLab `extends` и `!reference` в пределах одного CI-файла, включая наследуемый `before_script`.
-- Добавлены проверки на неизвестных родителей и циклы наследования.
-- Переходы проверены в Studio на реальных CI-файлах: 9 целей GitHub Actions и 6 целей GitLab CI.
+- Added navigation from `with.lane` in `maierj/fastlane-action`, respecting `with.subdirectory`.
+- Added same-file GitLab `extends` and `!reference` support, including inherited `before_script` commands.
+- Added guards for unknown parents and inheritance cycles.
+- Verified navigation in Studio against real CI files: 9 GitHub Actions targets and 6 GitLab CI targets.
 
 ## 0.2.0
 
-- Добавлен переход из `.github/workflows/*.yml`, `*.yaml` и `.gitlab-ci.yml` к объявлениям lanes в Fastfile.
-- Поддержаны явные команды `fastlane release` и `bundle exec fastlane android release`.
-- При поиске учитываются платформа, `default_platform`, GitHub `working-directory`, простой `cd` и GitLab `before_script`.
-- При нескольких подходящих Fastfile предлагается выбор с путями к файлам.
-- Приватные lanes, комментарии, текст в `echo` и динамические имена исключены из CLI-навигации.
+- Added navigation from `.github/workflows/*.yml`, `*.yaml`, and `.gitlab-ci.yml` to lane declarations in Fastfile.
+- Recognized literal `fastlane release` and `bundle exec fastlane android release` commands.
+- Respected explicit platforms, `default_platform`, GitHub `working-directory`, simple `cd`, and GitLab `before_script`.
+- Offered a choice with file paths when multiple Fastfiles match.
+- Excluded private lanes, comments, echoed text, and dynamic names from CLI navigation.
 
 ## 0.1.6
 
-- Исправлено форматирование многострочных Ruby-строк, включая `"""…"""`.
-- Сохраняются исходные кавычки, интерполяция и отступы внутри многострочного текста.
-- Добавлены проверки сохранности строк и повторного форматирования.
+- Fixed formatting of multiline Ruby strings, including triple-quoted literals.
+- Preserved original quotes, interpolation, and internal indentation in multiline text.
+- Added regression checks for string preservation and repeated formatting.
 
 ## 0.1.5
 
-- Добавлено форматирование поддерживаемых файлов через **Code → Reformat Code**.
-- В плагин включены Syntax Tree 6.3.0 и prettier_print 1.2.1; установка gems не требуется.
-- Добавлены автоматический поиск Ruby и настройка пути к исполняемому файлу. Для форматирования нужен Ruby 2.7+.
-- Форматируется несохранённый текст редактора; ошибки синтаксиса и запуска Ruby оставляют документ без изменений.
-- Добавлены фоновый запуск, отмена и поддержка стандартного Reformat Code при сохранении.
+- Added formatting through **Code → Reformat Code** for supported files.
+- Bundled Syntax Tree 6.3.0 and prettier_print 1.2.1, without requiring gem installation.
+- Added automatic Ruby detection and a configurable executable path. The formatter requires Ruby 2.7+.
+- Formatted unsaved editor text; syntax and Ruby startup errors leave documents unchanged.
+- Added background execution, cancellation, and support for the IDE's Reformat Code on save.
 
 ## 0.1.4
 
-- Добавлены SVG-иконки плагина и поддерживаемых файлов на основе логотипа Fastlane.
+- Added SVG plugin and file icons based on the Fastlane logo.
 
 ## 0.1.3
 
-Первая версия, опубликованная в репозитории.
+First version published in the repository.
 
-- Ruby-подсветка и распознавание Fastfile, Pluginfile, Gemfile и других конфигов через TextMate.
-- Structure и File Structure с платформами, обычными, private и override lanes, а также описаниями `desc`.
-- Переход от вызова к объявлению lane в текущем Fastfile с учётом платформы.
-- Переход от объявления к вызовам и стандартный Find Usages.
-- Точные позиции навигации вместо начала файла; исключение ложных совпадений в комментариях и строках.
-- В отдельном обновлении этой версии ID плагина изменён на `ru.ovm.fastlane.as`. При обновлении с `dev.fastlane.ide` старый плагин нужно удалить.
+- Ruby highlighting and recognition of Fastfile, Pluginfile, Gemfile, and other configuration files through TextMate.
+- Structure and File Structure for platforms, public, private, and override lanes, with `desc` descriptions.
+- Platform-aware navigation from calls to lane declarations within a Fastfile.
+- Reverse navigation to callers and standard Find Usages support.
+- Exact navigation offsets instead of the start of the file, excluding false matches in comments and strings.
+- In a follow-up update of this version, changed the plugin ID to `ru.ovm.fastlane.as`. Remove the old `dev.fastlane.ide` plugin when upgrading from that ID.

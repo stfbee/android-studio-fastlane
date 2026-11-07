@@ -1,26 +1,9 @@
 # Roadmap
 
-## После первой версии
+Current capabilities are documented in the [README](README.md). Shipped changes are listed in the [changelog](CHANGELOG.md).
 
-- Навигация из подключённых локальных GitLab CI-файлов к объявлениям lanes.
-- Поддержка YAML aliases и дополнительных форм записи CI-команд.
+## Planned
 
-## Оформление и выпуск
-
-- Форматированное описание плагина с примерами возможностей и инструкцией по использованию.
-- Публикация в JetBrains Marketplace через CI/CD.
-
-Пожелания пользователя от 2026-11-06. Запланированы на следующие версии; не входят в текущее исправление навигации.
-
-## Репозиторий исходников
-
-[stfbee/android-studio-fastlane](https://github.com/stfbee/android-studio-fastlane).
-
-## Выполнено
-
-- Иконка плагина и поддерживаемых файлов на основе SVG логотипа Fastlane (0.1.4).
-- Форматирование поддерживаемых файлов через Reformat Code с включённым Syntax Tree (0.1.5).
-- Сохранение исходной записи многострочных строк при форматировании (0.1.6).
-- Навигация из GitHub Actions и `.gitlab-ci.yml` для явных `fastlane release` / `bundle exec fastlane android release`, с учётом платформы и статической рабочей папки; выбор при нескольких Fastfile (0.2.0).
-- Навигация из `maierj/fastlane-action` (`with.lane`), GitLab `extends` и `!reference` в одном файле; проверка на реальных CI-файлах (0.2.1).
-- GitHub Actions: проверки, сборка ZIP и публикация GitHub Releases по тегам, включая исторические версии (0.2.2).
+- Navigate to lanes from locally included GitLab CI files.
+- Support YAML aliases and additional CI command forms.
+- Publish to JetBrains Marketplace and automate subsequent updates.

@@ -1,58 +1,42 @@
-<idea-plugin>
+<idea-plugin url="https://github.com/stfbee/android-studio-fastlane">
     <id>ru.ovm.fastlane.as</id>
     <name>Fastlane Navigator</name>
-    <version>0.2.2</version>
-    <vendor>Vladislav Onishchenko</vendor>
+    <version>0.2.3</version>
+    <vendor url="https://github.com/stfbee">Vladislav Onishchenko</vendor>
     <description><![CDATA[
-        Ruby highlighting for Fastlane configuration files, a platform/lane outline in Structure and
-        File Structure, navigation to literal lane declarations and Find Usages within the current Fastfile.
-        Reformat supported files with the bundled Syntax Tree formatter (requires Ruby 2.7+).
-        Navigate from literal GitHub Actions and GitLab CI Fastlane commands to lane declarations.
-        Never executes the user's Fastfile or runs Fastlane.
+        <p><img src="https://raw.githubusercontent.com/stfbee/android-studio-fastlane/main/docs/images/banner.png"
+                alt="Fastlane Navigator" width="640" height="175"></p>
+        <p>Navigate Fastlane lanes and edit Ruby configuration files directly in Android Studio.</p>
+        <h3>Features</h3>
+        <ul>
+            <li><b>Lane navigation:</b> jump between declarations and calls, with platform-aware resolution and Find Usages in the current Fastfile.</li>
+            <li><b>File structure:</b> browse platforms, public, private, and override lanes, with descriptions from <code>desc</code>.</li>
+            <li><b>CI navigation:</b> jump to lanes from GitHub Actions and GitLab CI, including Fastlane action inputs and same-file GitLab inheritance.</li>
+            <li><b>Ruby editing:</b> syntax highlighting and file icons for Fastfile, Pluginfile, Gemfile, Appfile, and other Fastlane configurations.</li>
+            <li><b>Formatting:</b> use Reformat Code on saved or unsaved files while preserving multiline string contents.</li>
+        </ul>
+        <h3>Getting started</h3>
+        <p>Open a Fastfile and use <b>Go to Declaration or Usages</b> on a lane name to navigate between its declaration and calls. Use <b>File Structure</b> to browse lanes and <b>Find Usages</b> to list callers.</p>
+        <p>To format a file, clear the selection and choose <b>Code → Reformat Code</b>. Ruby is detected automatically; configure its path under <b>Settings → Languages &amp; Frameworks → Fastlane</b> if needed.</p>
+        <h3>Requirements</h3>
+        <p>Android Studio on platform <b>262.*</b>, with TextMate Bundles and its Ruby bundle enabled. A local Ruby installation is needed only for formatting; the formatter is tested with Ruby 4.0.9 and includes its required gems.</p>
+        <p>Navigation uses literal lane names. Ruby imports, dynamic names, external CI includes, and arbitrary shell programs are not resolved. The plugin never executes your Fastfile or runs Fastlane.</p>
+        <h3>Resources</h3>
+        <ul>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane#readme">Documentation</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane/issues">Issue tracker</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane">Source code</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane/releases">Releases</a></li>
+            <li><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/README.ru.md">Документация на русском</a></li>
+        </ul>
     ]]></description>
     <change-notes><![CDATA[
-        <h3>0.2.2</h3>
         <ul>
-            <li>Добавлена история изменений в карточку плагина и CHANGELOG.md в репозитории.</li>
-            <li>Имя разработчика изменено на Vladislav Onishchenko.</li>
+            <li>Refreshed the plugin card and repository with a shared banner and English descriptions.</li>
+            <li>Added documentation, issue tracker, source code, release, and developer links.</li>
+            <li>Added Russian documentation translations and moved development instructions out of the main README.</li>
         </ul>
-        <h3>0.2.1</h3>
-        <ul>
-            <li>Переход из with.lane у maierj/fastlane-action с учётом with.subdirectory.</li>
-            <li>Поддержка GitLab extends и !reference в одном файле, включая наследуемый before_script.</li>
-            <li>Проверки неизвестных родителей и циклов наследования.</li>
-            <li>В Studio проверены 9 переходов из реальных GitHub Actions и 6 из GitLab CI.</li>
-        </ul>
-        <h3>0.2.0</h3>
-        <ul>
-            <li>Переход из GitHub Actions и .gitlab-ci.yml к объявлениям lanes в Fastfile.</li>
-            <li>Поддержка fastlane release и bundle exec fastlane android release.</li>
-            <li>Учёт платформы, default_platform, working-directory, простого cd и before_script.</li>
-            <li>Выбор при нескольких Fastfile; исключение private lanes, комментариев, echo и динамических имён.</li>
-        </ul>
-        <h3>0.1.6</h3>
-        <ul>
-            <li>Исправлено форматирование многострочных Ruby-строк, включая тройные кавычки.</li>
-            <li>Сохраняются кавычки, интерполяция и внутренние отступы.</li>
-        </ul>
-        <h3>0.1.5</h3>
-        <ul>
-            <li>Форматирование поддерживаемых файлов через Reformat Code; Syntax Tree и prettier_print включены в плагин.</li>
-            <li>Автоматический поиск Ruby и настройка пути к нему; требуется Ruby 2.7+.</li>
-            <li>Обработка несохранённого текста в фоне, отмена и поддержка стандартного Reformat Code при сохранении.</li>
-            <li>При ошибке синтаксиса или запуска Ruby документ остаётся без изменений.</li>
-        </ul>
-        <h3>0.1.4</h3>
-        <ul>
-            <li>SVG-иконки плагина и файлов на основе логотипа Fastlane.</li>
-        </ul>
-        <h3>0.1.3</h3>
-        <ul>
-            <li>Первая версия в репозитории: Ruby-подсветка и распознавание конфигурационных файлов Fastlane через TextMate.</li>
-            <li>Structure и File Structure с платформами, lanes и описаниями desc.</li>
-            <li>Переходы между вызовами и объявлениями lanes, Find Usages и точные позиции навигации.</li>
-            <li>В отдельном обновлении этой версии ID изменён на ru.ovm.fastlane.as. Старый плагин dev.fastlane.ide нужно удалить.</li>
-        </ul>
+        <p><a href="https://github.com/stfbee/android-studio-fastlane/blob/main/CHANGELOG.md">Full changelog</a></p>
     ]]></change-notes>
     <idea-version since-build="262" until-build="262.*"/>
     <depends>com.intellij.modules.platform</depends>

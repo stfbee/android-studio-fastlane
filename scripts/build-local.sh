@@ -26,11 +26,11 @@ mkdir -p "$ROOT/build/local/classes" "$ROOT/build/local/test-classes" "$ROOT/bui
 cp -R "$ROOT/bundles" "$ROOT/build/staging/fastlane-navigator/"
 cp -R "$ROOT/formatter" "$ROOT/build/staging/fastlane-navigator/"
 cd "$ROOT/build/staging"
-rm -f "$ROOT/build/distributions/fastlane-navigator-0.2.2.zip"
-zip -qr "$ROOT/build/distributions/fastlane-navigator-0.2.2.zip" fastlane-navigator
+rm -f "$ROOT/build/distributions/fastlane-navigator-0.2.3.zip"
+zip -qr "$ROOT/build/distributions/fastlane-navigator-0.2.3.zip" fastlane-navigator
 "$JDK/bin/java" -cp "$KOTLIN/*" org.jetbrains.kotlin.cli.jvm.K2JVMCompiler \
   -no-stdlib -no-reflect -jvm-target 21 -jdk-home "$JDK" -classpath "$CP:$ROOT/build/local/classes" \
   -d "$ROOT/build/local/test-classes" "$ROOT/src/test/kotlin"
 "$JDK/bin/java" -cp "$CP:$ROOT/build/local/classes:$ROOT/build/local/test-classes" dev.fastlane.ide.OutlineTestKt
 "${FASTLANE_RUBY:-ruby}" "$ROOT/formatter/test_formatter.rb"
-echo "Built: $ROOT/build/distributions/fastlane-navigator-0.2.2.zip"
+echo "Built: $ROOT/build/distributions/fastlane-navigator-0.2.3.zip"

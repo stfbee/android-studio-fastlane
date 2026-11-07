@@ -1,157 +1,89 @@
-# Fastlane Navigator for Android Studio
+![Fastlane Navigator](docs/images/banner.png)
 
-Небольшой плагин на Kotlin для редактирования Fastlane в Android Studio.
+<p align="center">Fastlane editing, lane navigation, and formatting for Android Studio.</p>
 
-Репозиторий: https://github.com/stfbee/android-studio-fastlane
+<p align="center">
+  <a href="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml"><img src="https://github.com/stfbee/android-studio-fastlane/actions/workflows/build.yml/badge.svg" alt="Build"></a>
+  <a href="https://github.com/stfbee/android-studio-fastlane/releases/latest"><img src="https://img.shields.io/github/v/release/stfbee/android-studio-fastlane" alt="Latest release"></a>
+  <a href="#requirements"><img src="https://img.shields.io/badge/Android%20Studio-262.*-3DDC84" alt="Android Studio 262.*"></a>
+</p>
 
-ID плагина: `ru.ovm.fastlane.as`.
+<p align="center">English · <a href="README.ru.md">Русский</a></p>
 
-Разработчик: Vladislav Onishchenko. [История изменений](CHANGELOG.md).
+## Features
 
-Готовые ZIP: [GitHub Releases](https://github.com/stfbee/android-studio-fastlane/releases).
+- **Navigate between lanes and calls.** Jump to declarations, find usages, and return to callers within a Fastfile. Platform-specific lanes are resolved in context.
+- **Explore your Fastfile.** Browse platforms, public, private, and override lanes in Structure and File Structure, with descriptions from `desc`.
+- **Jump from CI to code.** Open lane declarations from GitHub Actions and GitLab CI, including Fastlane action inputs and inherited GitLab jobs.
+- **Read Ruby configuration files.** Get syntax highlighting and Fastlane file icons without installing a Ruby IDE plugin or configuring a Ruby SDK.
+- **Format your files.** Use Reformat Code on saved or unsaved content. Multiline string contents and internal indentation are preserved.
 
-## Версия 0.2.2
+## Installation
 
-Переход из CI к объявлению lane: **⌘Click / ⌘B** на имени в `fastlane release` или `bundle exec fastlane android release`.
-Поддерживаются `.github/workflows/*.yml`, `*.yaml` и `.gitlab-ci.yml`: однострочные команды, блоки `|` и списки GitLab `script` / `before_script` / `after_script`.
+1. Download the plugin ZIP from [GitHub Releases](https://github.com/stfbee/android-studio-fastlane/releases/latest).
+2. Open **Settings → Plugins → ⚙ → Install Plugin from Disk…** and select the ZIP.
+3. Restart Android Studio if prompted, then open your Fastfile.
 
-В GitHub также поддерживается `uses: maierj/fastlane-action@…` с `with.lane` и `with.subdirectory`. В GitLab поддерживаются `extends` (включая цепочки и несколько родителей) и `!reference [job, script]` / `before_script` / `after_script` в пределах одного CI-файла. Наследуемый `before_script` учитывается при определении рабочей папки.
+## Usage
 
-Учитываются явная платформа, `default_platform(:android)`, GitHub `working-directory` (шаг, job или workflow defaults), простой `cd` и GitLab `before_script`.
-Fastfile ищется в рабочей папке и её родителях: `fastlane/Fastfile`, `Fastfile` и варианты `.rb`. Если таких файлов нет, поиск идёт среди вложенных Fastfile проекта; при нескольких совпадениях IDE предлагает выбор с полными путями. Приватные lanes не предлагаются.
+| Action | macOS | Windows / Linux |
+| --- | --- | --- |
+| Go to Declaration or Usages | `⌘B` / `⌘Click` | `Ctrl+B` / `Ctrl+Click` |
+| Find Usages | `⌥F7` | `Alt+F7` |
+| File Structure | `⌘F12` | `Ctrl+F12` |
+| Reformat Code | `⌘⌥L` | `Ctrl+Alt+L` |
 
-Это статический разбор без запуска CI, shell или Fastlane. Динамические имена и папки из переменных не вычисляются. Подключённые CI-файлы, YAML aliases, flow-массивы команд, folded-блоки `>` и сложные shell-конструкции пока не поддерживаются. Неизвестные родители `extends` и циклы наследования не используются для угадывания рабочей папки.
+Shortcuts assume the default IDE keymap. Navigate from a lane call to its declaration; use the same action on a declaration to jump to its callers.
 
-В 0.1.6 исправлено форматирование многострочных строк, включая `"""…"""`: сохраняются исходные кавычки, интерполяция и отступы внутри текста.
+### Formatting
 
-Форматирование всех поддерживаемых Ruby-конфигов через **Code → Reformat Code** (`⌘⌥L`). Плагин включает Syntax Tree 6.3.0 и prettier_print 1.2.1; устанавливать gems или менять Gemfile не требуется. Для форматирования нужен Ruby 2.7+; подсветка и навигация по-прежнему работают без Ruby.
+Clear the selection and choose **Code → Reformat Code**. Ruby is detected automatically; set an explicit path in **Settings → Languages & Frameworks → Fastlane → Ruby executable** if needed.
 
-Логотип плагина — жёлтый ромбовидный дорожный знак с символом Fastlane и стрелкой навигации. Все четыре варианта логотипа сохранены в [artwork/logo-concepts](artwork/logo-concepts). Для поддерживаемых конфигурационных файлов в дереве проекта, вкладках редактора и навигации используется исходная иконка Fastlane из [artwork/fastlane](artwork/fastlane). SVG сохраняет чёткость на Retina и других HiDPI-дисплеях.
+To format on save, enable **Reformat Code** in **Settings → Tools → Actions on Save**. The formatter uses two-space indentation and the IDE's right margin. It formats the whole file; selection-only formatting and project RuboCop / Syntax Tree configuration are not supported.
 
-Исправлен фоновый запуск Find Usages: обработчик сам получает необходимый доступ для чтения PSI. `⌘Click` / `⌘B` на имени в объявлении lane теперь ведёт к вызовам; при нескольких вызовах IDE показывает выбор с текстом строки и её номером. Курсор после последней буквы имени также распознаётся.
+### CI navigation
 
-Добавлен Find Usages для lanes: поставить курсор на имя lane в объявлении или вызове и выбрать **Edit → Find Usages → Find Usages** (`⌥F7` на стандартной macOS-раскладке). Найденные вызовы появляются в стандартном списке Usages; выбор результата открывает точную позицию вызова. Поиск ограничен текущим Fastfile и учитывает платформу. Комментарии, строки, символы и вызовы с явным получателем (`object.build`) не считаются вызовами lane.
+Place the cursor on the lane name and use Go to Declaration:
 
-Исправлен переход в начало файла вместо имени lane. TextMate может представлять файл одним PSI-элементом; теперь у каждого lane собственная цель с точным диапазоном и позицией навигации.
-
-- Ruby-подсветка через встроенный TextMate. Не требует Ruby SDK, RubyMine или запуска Fastlane.
-- Распознавание `Fastfile`, `Pluginfile`, `Gemfile`, `Appfile`, `Matchfile`, `Deliverfile`, `Supplyfile` и других конфигов. `Gemfile.lock` не рассматривается как Ruby.
-- Structure и File Structure (`⌘F12` на стандартной macOS-раскладке): `platform`, `lane`, `private_lane`, `override_lane`.
-- Группировка lanes по платформам, пометки private/override и описания `desc`.
-- Go to Declaration (`⌘B` / `⌘Click`): переход от вызова к объявлению lane в текущем Fastfile. Сначала поиск внутри текущей платформы, затем среди общих lanes; при нескольких совпадениях IDE предлагает выбор.
-- Обычные Ruby-файлы и другие TextMate-языки сохраняют свою структуру.
-
-Проверено на Android Studio `AI-262.10968.63.2622.16665580` (2026.2.2), macOS ARM64. В манифесте разрешена ветка платформы `262.*`; другие версии пока не заявлены.
-
-## Установка
-
-1. Скачать или собрать `fastlane-navigator-0.2.2.zip`.
-2. В Android Studio открыть **Settings → Plugins → шестерёнка → Install Plugin from Disk…**.
-3. Выбрать ZIP целиком и перезапустить IDE, если она предложит.
-4. Открыть Fastfile и вызвать **Navigate → File Structure** (`⌘F12`).
-
-При переходе с ранней сборки с ID `dev.fastlane.ide` сначала удалить её через Plugins: для IDE новый ID означает другой плагин, и обе сборки не должны работать одновременно.
-
-Плагину нужны включённые **TextMate Bundles** и встроенный Ruby-бандл в **Settings → Editor → TextMate Bundles**. Если файл вручную привязан к Plain Text, убрать эту привязку. Плагин не переписывает пользовательские настройки типов файлов и цвета.
-
-## Форматирование
-
-1. Открыть поддерживаемый файл, убрать выделение текста и нажать **⌘⌥L** (**Code → Reformat Code**).
-2. Ruby определяется автоматически. При необходимости указать полный путь в **Settings → Languages & Frameworks → Fastlane → Ruby executable** — например, `/opt/homebrew/bin/ruby` или путь к Ruby из rbenv/asdf/mise.
-3. Для запуска при сохранении можно включить **Reformat Code** в **Settings → Tools → Actions on Save**.
-
-Нужен Ruby 2.7+ со стандартной библиотекой Ripper. Отдельная установка `syntax_tree`, RuboCop или Bundler не требуется: библиотеки поставляются вместе с плагином.
-
-Форматируется весь файл, включая несохранённый текст. Применяется стиль Syntax Tree: отступ в два пробела, нормализация пробелов и кавычек, перенос длинных выражений. Ширина строки берётся из настроек Code Style IDE. `.rubocop.yml`, `.streerc` и пользовательские плагины форматтера не загружаются. Форматирование выделенного фрагмента пока не поддерживается.
-
-Содержимое Fastfile, Gemfile и остальных конфигов не исполняется. При ошибке синтаксиса или запуска Ruby документ остаётся без изменений; причина показывается уведомлением. Форматтер работает в фоне и поддерживает отмену.
-
-## Сборка
-
-### GitHub Actions и релизы
-
-Workflow **Build plugin** запускается для push в `main` и pull requests: проверяет согласованность версий, запускает тесты, собирает ZIP и проверяет структуру плагина. ZIP сохраняется как artifact на 14 дней.
-
-Сборка использует Ubuntu, Ruby `4.0.9`, закреплённую Android Studio `2026.2.2.6` (ту же платформу, что локальные проверки) с проверкой SHA-256 и её встроенную Java 25. Studio и Gradle кешируются.
-
-Для новой версии обновить номер в метаданных/сборке и добавить раздел в `CHANGELOG.md`, затем после публикации коммита создать и отправить тег:
-
-```sh
-git tag -a v0.2.3 -m "Fastlane Navigator 0.2.3"
-git push origin v0.2.3
+```shell
+fastlane release
+bundle exec fastlane android release
 ```
 
-Workflow **Release plugin** пересоберёт исходники тега, проверит совпадение номера версии и опубликует GitHub Release с ZIP и описанием из `CHANGELOG.md`. Публикация выполняется только после успешных проверок. Повторный запуск обновляет ZIP и описание существующего релиза.
+- **GitHub Actions:** `run` commands in `.github/workflows/*.yml` and `*.yaml`, plus `with.lane` and `with.subdirectory` in `maierj/fastlane-action` steps.
+- **GitLab CI:** `script`, `before_script`, and `after_script` in `.gitlab-ci.yml`, including same-file `extends` and `!reference`.
 
-Для исторического тега без workflow открыть **Actions → Release plugin → Run workflow**, выбрать ветку `main` и указать тег в поле `tag`. Сборка использует исходники выбранного тега, а описание берёт из текущего `CHANGELOG.md` в основной ветке. Используется стандартный `GITHUB_TOKEN`; отдельные секреты для GitHub Releases не нужны. Публикация в JetBrains Marketplace пока не настроена.
+Navigation respects explicit platforms, `default_platform`, GitHub `working-directory`, and simple `cd` commands. If several Fastfiles match, the IDE offers a choice.
 
-### Локальная сборка
+## Supported files
 
-Нужны установленная Android Studio с TextMate и Java 25. Для тестов форматтера также нужен Ruby 2.7+. Путь к Studio по умолчанию: `~/Applications/Android Studio.app/Contents`.
+`Fastfile`, `Fastfile.rb`, `Pluginfile`, `Gemfile`, `Appfile`, `Deliverfile`, `Matchfile`, `Scanfile`, `Snapfile`, `Gymfile`, `Screengrabfile`, `Supplyfile`, `Certfile`, `Sighfile`, `Pemfile`, `Pilotfile`, and `Framefile`.
 
-Стандартная сборка:
+Highlighting, file icons, and formatting apply to these files. Lane navigation and structure are available in Fastfiles. `Gemfile.lock` is not treated as Ruby.
 
-```sh
-./gradlew check buildPlugin
-```
+## Requirements
 
-Если Studio установлена иначе, передать `-PstudioPath=/path/to/studio/Contents`. Java для Gradle можно выбрать в настройках IDE; при запуске из терминала указать обнаружение встроенной Java:
+- Android Studio on IntelliJ Platform **262.***.
+- The bundled **TextMate Bundles** plugin and Ruby bundle enabled.
+- A local Ruby installation **for formatting only**. The formatter is tested with Ruby **4.0.9**; Syntax Tree and prettier_print are bundled, so no gem installation is needed.
 
-```sh
-./gradlew check buildPlugin '-Dorg.gradle.java.installations.paths=/path/to/studio/Contents/jbr/Contents/Home'
-```
+<details>
+<summary>No syntax highlighting?</summary>
 
-Архив: `build/distributions/fastlane-navigator-0.2.2.zip`.
+Check that **TextMate Bundles** is enabled and that the Ruby bundle is listed under **Settings → Editor → TextMate Bundles**. Remove any manual Plain Text association for the file.
 
-Для разработки с отдельными настройками IDE:
+</details>
 
-```sh
-./gradlew runIde
-```
+## Scope
 
-Есть также сборка без скачивания зависимостей, через компилятор и SDK установленной Studio:
+Lane declarations and names must be literal. In-file navigation and Find Usages are limited to the current Fastfile; imports and metaprogramming are not resolved. CI navigation does not evaluate variables, follow external CI includes, or interpret arbitrary shell programs or YAML aliases.
 
-```sh
-bash scripts/build-local.sh
-```
+The plugin never executes your Fastfile or runs Fastlane.
 
-Для обоих вспомогательных скриптов можно задать `ANDROID_STUDIO_HOME`, указывающий на `Contents` приложения macOS. Скрипты рассчитаны на macOS.
+## Resources
 
-## Проверки
+[Documentation](https://github.com/stfbee/android-studio-fastlane#readme) · [Releases](https://github.com/stfbee/android-studio-fastlane/releases) · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md)
 
-`check` запускает сценарии разбора: платформы, разные виды lanes, вложенные блоки, условные модификаторы, циклы, методы и незаконченные файлы.
+Found a bug or have an idea? [Open an issue](https://github.com/stfbee/android-studio-fastlane/issues).
 
-Задача `rubyFormatterTest` проверяет форматирование Fastlane/Bundler DSL, повторный запуск, ширину строк, Unicode, heredoc, сохранение содержимого строк, отказ на неверном Ruby и отсутствие исполнения исходного кода. Путь к Ruby для Gradle можно передать через `-PrubyExecutable=/path/to/ruby`; для локального скрипта — через `FASTLANE_RUBY`.
-
-Также проверяется разрешение вызовов: одноимённые lanes разных платформ, общие lanes, рекурсивные вызовы, вызовы со скобками и исключение символов, меток и методов с получателем. Интеграционный тест проверяет доступность Find Usages с курсора на объявлении и вызове, стандартный обработчик поиска, точные диапазоны результатов и переходы к ним.
-
-Стандартный поиск запускается в фоновом потоке без внешнего ReadAction, как при Find Usages в IDE. Отдельно проверяются цели обратного `⌘Click` на объявлении и перемещение курсора на каждый вызов.
-
-Проверка интеграции с настоящей IDE:
-
-```sh
-bash scripts/build-local.sh
-bash scripts/smoke-ide.sh
-```
-
-Второй скрипт запускает отдельный экземпляр установленной Android Studio. Его настройки, плагины, кеши и журнал находятся в `build/ide-smoke`; настройки основной IDE не меняются. Тест проверяет определение типов реальных файлов, Ruby-грамматику (строки, комментарии, heredoc, regex, `%q`), регистрацию Structure, построение дерева и выбор объявления в нужной платформе. Для навигации используется физический Fastfile: проверяются стандартный обработчик Go to Declaration, точное смещение OpenFileDescriptor и перемещение курсора на имя lane. Итог: `build/ide-smoke/result.txt`, последняя строка `PASS`. Тестовый стартовый модуль не входит в установочный ZIP.
-
-Форматирование проверяется через штатный `CodeStyleManager.reformatText` в отдельном проекте IDE: несохранённые Fastfile/Pluginfile/Gemfile/Appfile, повторное форматирование, сохранность исходного файла на диске, неверный синтаксис, отсутствующий Ruby и отмена.
-
-## Ограничения
-
-Это статическая поддержка Fastlane DSL, а не полный Ruby-анализатор. Для исключения строк и комментариев используется Ruby-грамматика TextMate, затем отслеживаются блоки и объявления с буквальными именами:
-
-```ruby
-lane :release do
-end
-
-private_lane("build") do
-end
-```
-
-Динамические имена, метапрограммирование, разрешение локальных переменных и полная семантика Ruby не поддерживаются. Переходы за пределы текущего файла, включая `import` / `import_from_git`, пока отсутствуют. `Fastfile` никогда не исполняется, `bundle install` и другие команды не запускаются. Кнопок запуска lanes в этой версии нет.
-
-Расширения TextMate API привязывают эту версию к установленной ветке Android Studio. Перед расширением диапазона совместимости нужны повторная сборка и интеграционные проверки.
-
-Планы развития: [ROADMAP.md](ROADMAP.md).
+Created by [Vladislav Onishchenko](https://github.com/stfbee). An independent integration for Fastlane; see [artwork attribution](artwork/fastlane/README.md).
